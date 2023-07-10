@@ -1382,7 +1382,7 @@ INSERT INTO "public"."category_category_translation" ("id", "language_code", "ti
 (10, 'cs', 'Hry', 'Hry - produkty', '', '', 'hry', 5, '{}');
 
 INSERT INTO "public"."country_country" ("code", "name", "locale", "update_at", "create_at", "default_price_list_id", "safe_deleted") VALUES
-('AT', 'Austria', 'at', '2023-07-07 07:00:09.167457+00', '2023-07-07 07:00:09.167484+00', 'EUR_retail', 'f'),
+('AT', 'Austria', 'en', '2023-07-07 07:00:09.167457+00', '2023-07-07 07:00:09.167484+00', 'EUR_retail', 'f'),
 ('BE', 'Belgium', 'en', '2023-07-07 07:08:59.611139+00', '2023-07-07 07:08:59.611173+00', 'EUR_retail', 'f'),
 ('CZ', 'Česká republika', 'cs', '2023-07-07 06:59:21.808902+00', '2023-07-07 06:59:21.808928+00', 'CZK_retail', 'f'),
 ('DE', 'Germany', 'en', '2023-07-07 06:59:59.517269+00', '2023-07-07 06:59:59.517291+00', 'EUR_retail', 'f'),
