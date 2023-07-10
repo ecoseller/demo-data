@@ -1,11 +1,14 @@
 -- -------------------------------------------------------------
--- TablePlus 4.6.4(414)
---
--- https://tableplus.com/
---
 -- Database: ecoseller
 -- Generation Time: 2023-07-09 22:24:17.9230
 -- -------------------------------------------------------------
+
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 DROP TABLE IF EXISTS "public"."auth_group";
