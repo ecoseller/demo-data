@@ -4,1015 +4,1015 @@
 -- -------------------------------------------------------------
 
 
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO public;
-COMMENT ON SCHEMA public IS 'standard public schema';
-
-
-DROP TABLE IF EXISTS "public"."auth_group";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS auth_group_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."auth_group" (
-    "id" int4 NOT NULL DEFAULT nextval('auth_group_id_seq'::regclass),
-    "name" varchar(150) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."auth_group_permissions";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS auth_group_permissions_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."auth_group_permissions" (
-    "id" int8 NOT NULL DEFAULT nextval('auth_group_permissions_id_seq'::regclass),
-    "group_id" int4 NOT NULL,
-    "permission_id" int4 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."auth_permission";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS auth_permission_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."auth_permission" (
-    "id" int4 NOT NULL DEFAULT nextval('auth_permission_id_seq'::regclass),
-    "name" varchar(255) NOT NULL,
-    "content_type_id" int4 NOT NULL,
-    "codename" varchar(100) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."authtoken_token";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."authtoken_token" (
-    "key" varchar(40) NOT NULL,
-    "created" timestamptz NOT NULL,
-    "user_id" varchar(40) NOT NULL,
-    PRIMARY KEY ("key")
-);
-
-DROP TABLE IF EXISTS "public"."cart_cart";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."cart_cart" (
-    "token" uuid NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "country_id" varchar(2),
-    "user_id" varchar(40),
-    "billing_info_id" int8,
-    "shipping_info_id" int8,
-    "payment_method_country_id" int8,
-    "shipping_method_country_id" int8,
-    "pricelist_id" varchar(200),
-    PRIMARY KEY ("token")
-);
-
-DROP TABLE IF EXISTS "public"."cart_cartitem";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_cartitem_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_cartitem" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_cartitem_id_seq'::regclass),
-    "unit_price_incl_vat" numeric(10,2),
-    "unit_price_without_vat" numeric(10,2),
-    "quantity" int4 NOT NULL,
-    "cart_id" uuid,
-    "product_variant_id" varchar(255),
-    "product_id" int8,
-    "discount" numeric(10,2),
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_paymentmethod";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_paymentmethod_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_paymentmethod" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethod_id_seq'::regclass),
-    "image" varchar(100),
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_paymentmethod_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_paymentmethod_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_paymentmethod_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethod_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(255) NOT NULL,
-    "description" text,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_paymentmethodcountry";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_paymentmethodcountry_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_paymentmethodcountry" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethodcountry_id_seq'::regclass),
-    "price" numeric(10,2) NOT NULL,
-    "is_active" bool NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "country_id" varchar(2) NOT NULL,
-    "currency_id" varchar(3) NOT NULL,
-    "payment_method_id" int8 NOT NULL,
-    "vat_group_id" int8 NOT NULL,
-    "api_request" varchar(42),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_shippingmethod";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_shippingmethod_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_shippingmethod" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethod_id_seq'::regclass),
-    "image" varchar(100),
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_shippingmethod_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_shippingmethod_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_shippingmethod_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethod_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(255) NOT NULL,
-    "description" text,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_shippingmethodcountry";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_shippingmethodcountry_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_shippingmethodcountry" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethodcountry_id_seq'::regclass),
-    "price" numeric(10,2) NOT NULL,
-    "is_active" bool NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "country_id" varchar(2) NOT NULL,
-    "currency_id" varchar(3) NOT NULL,
-    "shipping_method_id" int8 NOT NULL,
-    "vat_group_id" int8 NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cart_shippingmethodcountry_payment_methods";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cart_shippingmethodcountry_payment_methods_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cart_shippingmethodcountry_payment_methods" (
-    "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethodcountry_payment_methods_id_seq'::regclass),
-    "shippingmethodcountry_id" int8 NOT NULL,
-    "paymentmethodcountry_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."category_category";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS category_category_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."category_category" (
-    "id" int8 NOT NULL DEFAULT nextval('category_category_id_seq'::regclass),
-    "lft" int4 NOT NULL CHECK (lft >= 0),
-    "rght" int4 NOT NULL CHECK (rght >= 0),
-    "tree_id" int4 NOT NULL CHECK (tree_id >= 0),
-    "level" int4 NOT NULL CHECK (level >= 0),
-    "parent_id" int8,
-    "create_at" timestamptz NOT NULL,
-    "published" bool NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."category_category_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS category_category_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."category_category_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('category_category_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(200) NOT NULL,
-    "meta_title" varchar(200) NOT NULL,
-    "meta_description" text NOT NULL,
-    "description" text,
-    "slug" varchar(200) NOT NULL,
-    "master_id" int8,
-    "description_editorjs" jsonb,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_page";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_page_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_page" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_page_id_seq'::regclass),
-    "published" bool NOT NULL,
-    "ordering" int4 NOT NULL,
-    "recommended" bool NOT NULL,
-    "polymorphic_ctype_id" int4,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_page_categories";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_page_categories_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_page_categories" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_page_categories_id_seq'::regclass),
-    "page_id" int8 NOT NULL,
-    "pagecategory_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecategory";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecategory" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_id_seq'::regclass),
-    "sort_order" int4,
-    "published" bool NOT NULL,
-    "code" varchar(20) NOT NULL,
-    "ordering" int4 NOT NULL,
-    "image" varchar(100),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecategory_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecategory_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(250) NOT NULL,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecategory_type";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_type_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecategory_type" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_type_id_seq'::regclass),
-    "pagecategory_id" int8 NOT NULL,
-    "pagecategorytype_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecategorytype";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagecategorytype_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecategorytype" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagecategorytype_id_seq'::regclass),
-    "identifier" varchar(100) NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecms";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecms" (
-    "page_ptr_id" int8 NOT NULL,
-    PRIMARY KEY ("page_ptr_id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagecms_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagecms_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagecms_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagecms_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "slug" varchar(255) NOT NULL,
-    "title" varchar(250) NOT NULL,
-    "content" jsonb,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagefrontend";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."cms_pagefrontend" (
-    "page_ptr_id" int8 NOT NULL,
-    "frontend_path" varchar(250) NOT NULL,
-    PRIMARY KEY ("page_ptr_id")
-);
-
-DROP TABLE IF EXISTS "public"."cms_pagefrontend_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS cms_pagefrontend_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."cms_pagefrontend_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('cms_pagefrontend_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(250) NOT NULL,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."country_billinginfo";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS country_billingaddress_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."country_billinginfo" (
-    "id" int8 NOT NULL DEFAULT nextval('country_billingaddress_id_seq'::regclass),
-    "first_name" varchar(255) NOT NULL,
-    "surname" varchar(255) NOT NULL,
-    "street" varchar(255) NOT NULL,
-    "city" varchar(255) NOT NULL,
-    "postal_code" varchar(255) NOT NULL,
-    "company_name" varchar(255),
-    "company_id" varchar(255),
-    "vat_number" varchar(255),
-    "country_id" varchar(2) NOT NULL,
-    "user_id" varchar(40),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."country_country";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."country_country" (
-    "code" varchar(2) NOT NULL,
-    "name" varchar(200) NOT NULL,
-    "locale" varchar(2) NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "default_price_list_id" varchar(200),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("code")
-);
-
-DROP TABLE IF EXISTS "public"."country_currency";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."country_currency" (
-    "code" varchar(3) NOT NULL,
-    "symbol" varchar(3) NOT NULL,
-    "symbol_position" varchar(6) NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("code")
-);
-
-DROP TABLE IF EXISTS "public"."country_shippinginfo";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS country_shippingaddress_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."country_shippinginfo" (
-    "id" int8 NOT NULL DEFAULT nextval('country_shippingaddress_id_seq'::regclass),
-    "first_name" varchar(255) NOT NULL,
-    "surname" varchar(255) NOT NULL,
-    "street" varchar(255) NOT NULL,
-    "city" varchar(255) NOT NULL,
-    "postal_code" varchar(255) NOT NULL,
-    "email" varchar(255),
-    "phone" varchar(255),
-    "additional_info" text,
-    "country_id" varchar(2) NOT NULL,
-    "user_id" varchar(40),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."country_vatgroup";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS country_vatgroup_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."country_vatgroup" (
-    "id" int8 NOT NULL DEFAULT nextval('country_vatgroup_id_seq'::regclass),
-    "name" varchar(200) NOT NULL,
-    "rate" numeric(5,2) NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "country_id" varchar(2) NOT NULL,
-    "is_default" bool NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."django_admin_log";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS django_admin_log_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."django_admin_log" (
-    "id" int4 NOT NULL DEFAULT nextval('django_admin_log_id_seq'::regclass),
-    "action_time" timestamptz NOT NULL,
-    "object_id" text,
-    "object_repr" varchar(200) NOT NULL,
-    "action_flag" int2 NOT NULL CHECK (action_flag >= 0),
-    "change_message" text NOT NULL,
-    "content_type_id" int4,
-    "user_id" varchar(40) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."django_content_type";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS django_content_type_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."django_content_type" (
-    "id" int4 NOT NULL DEFAULT nextval('django_content_type_id_seq'::regclass),
-    "app_label" varchar(100) NOT NULL,
-    "model" varchar(100) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."django_migrations";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS django_migrations_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."django_migrations" (
-    "id" int8 NOT NULL DEFAULT nextval('django_migrations_id_seq'::regclass),
-    "app" varchar(255) NOT NULL,
-    "name" varchar(255) NOT NULL,
-    "applied" timestamptz NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."django_session";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."django_session" (
-    "session_key" varchar(40) NOT NULL,
-    "session_data" text NOT NULL,
-    "expire_date" timestamptz NOT NULL,
-    PRIMARY KEY ("session_key")
-);
-
-DROP TABLE IF EXISTS "public"."order_order";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."order_order" (
-    "token" uuid NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "cart_id" uuid,
-    "status" varchar(10) NOT NULL,
-    "agreed_to_terms" bool NOT NULL,
-    "marketing_flag" bool NOT NULL,
-    "payment_id" varchar(100),
-    PRIMARY KEY ("token")
-);
-
-DROP TABLE IF EXISTS "public"."product_attributetype";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_attributetype_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_attributetype" (
-    "id" int8 NOT NULL DEFAULT nextval('product_attributetype_id_seq'::regclass),
-    "type_name" varchar(200),
-    "unit" varchar(200),
-    "value_type" varchar(10) NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_attributetype_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_attributetype_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_attributetype_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('product_attributetype_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "name" varchar(200) NOT NULL,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_baseattribute";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_baseattribute_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_baseattribute" (
-    "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_id_seq'::regclass),
-    "value" varchar(200),
-    "order" int4,
-    "type_id" int8 NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_baseattribute_ext_attributes";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_baseattribute_ext_attributes_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_baseattribute_ext_attributes" (
-    "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_ext_attributes_id_seq'::regclass),
-    "baseattribute_id" int8 NOT NULL,
-    "extensionattribute_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_baseattribute_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_baseattribute_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_baseattribute_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "name" varchar(200) NOT NULL,
-    "master_id" int8,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_extattributetype";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_extattributetype_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_extattributetype" (
-    "id" int8 NOT NULL DEFAULT nextval('product_extattributetype_id_seq'::regclass),
-    "type_name" varchar(200) NOT NULL,
-    "unit" varchar(200),
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_extensionattribute";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_extensionattribute_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_extensionattribute" (
-    "id" int8 NOT NULL DEFAULT nextval('product_extensionattribute_id_seq'::regclass),
-    "value" varchar(200) NOT NULL,
-    "type_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_extensionattribute_ext_attributes";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_extensionattribute_ext_attributes_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_extensionattribute_ext_attributes" (
-    "id" int8 NOT NULL DEFAULT nextval('product_extensionattribute_ext_attributes_id_seq'::regclass),
-    "from_extensionattribute_id" int8 NOT NULL,
-    "to_extensionattribute_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_pricelist";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."product_pricelist" (
-    "code" varchar(200) NOT NULL,
-    "rounding" bool NOT NULL,
-    "currency_id" varchar(3) NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "is_default" bool NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("code")
-);
-
-DROP TABLE IF EXISTS "public"."product_product";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_product_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_product" (
-    "id" int8 NOT NULL DEFAULT nextval('product_product_id_seq'::regclass),
-    "published" bool NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "category_id" int8,
-    "type_id" int8,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_product_product_variants";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_product_product_variants_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_product_product_variants" (
-    "id" int8 NOT NULL DEFAULT nextval('product_product_product_variants_id_seq'::regclass),
-    "product_id" int8 NOT NULL,
-    "productvariant_id" varchar(255) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_product_translation";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_product_translation_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_product_translation" (
-    "id" int8 NOT NULL DEFAULT nextval('product_product_translation_id_seq'::regclass),
-    "language_code" varchar(15) NOT NULL,
-    "title" varchar(200) NOT NULL,
-    "meta_title" varchar(200) NOT NULL,
-    "meta_description" text NOT NULL,
-    "short_description" text,
-    "description" text,
-    "slug" varchar(200) NOT NULL,
-    "master_id" int8,
-    "description_editorjs" jsonb,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_productmedia";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_productmedia_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_productmedia" (
-    "id" int8 NOT NULL DEFAULT nextval('product_productmedia_id_seq'::regclass),
-    "sort_order" int4,
-    "media" varchar(100) NOT NULL,
-    "type" varchar(10) NOT NULL,
-    "alt" varchar(128),
-    "product_id" int8,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_productprice";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_productprice_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_productprice" (
-    "id" int8 NOT NULL DEFAULT nextval('product_productprice_id_seq'::regclass),
-    "price" numeric(10,2) NOT NULL,
-    "price_list_id" varchar(200) NOT NULL,
-    "product_variant_id" varchar(255),
-    "create_at" timestamptz NOT NULL,
-    "update_at" timestamptz NOT NULL,
-    "discount" numeric(10,2),
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_producttype";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_producttype_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_producttype" (
-    "id" int8 NOT NULL DEFAULT nextval('product_producttype_id_seq'::regclass),
-    "name" varchar(200),
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_producttype_allowed_attribute_types";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_producttype_allowed_attribute_types_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_producttype_allowed_attribute_types" (
-    "id" int8 NOT NULL DEFAULT nextval('product_producttype_allowed_attribute_types_id_seq'::regclass),
-    "producttype_id" int8 NOT NULL,
-    "attributetype_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_producttype_vat_groups";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_producttype_vat_groups_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_producttype_vat_groups" (
-    "id" int8 NOT NULL DEFAULT nextval('product_producttype_vat_groups_id_seq'::regclass),
-    "producttype_id" int8 NOT NULL,
-    "vatgroup_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_productvariant";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."product_productvariant" (
-    "sku" varchar(255) NOT NULL,
-    "ean" varchar(13) NOT NULL,
-    "weight" numeric(10,2),
-    "update_at" timestamptz NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "stock_quantity" int4 NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("sku")
-);
-
-DROP TABLE IF EXISTS "public"."product_productvariant_attributes";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_productvariant_attributes_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_productvariant_attributes" (
-    "id" int8 NOT NULL DEFAULT nextval('product_productvariant_attributes_id_seq'::regclass),
-    "productvariant_id" varchar(255) NOT NULL,
-    "baseattribute_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."product_productvariantmedia";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS product_productvariantmedia_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."product_productvariantmedia" (
-    "id" int8 NOT NULL DEFAULT nextval('product_productvariantmedia_id_seq'::regclass),
-    "media_id" int8 NOT NULL,
-    "product_variant_id" varchar(255) NOT NULL,
-    "safe_deleted" bool NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."review_review";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."review_review" (
-    "token" uuid NOT NULL,
-    "create_at" timestamptz NOT NULL,
-    "rating" int4 NOT NULL,
-    "comment" text NOT NULL,
-    "order_id" uuid,
-    "product_id" int8,
-    "product_variant_id" varchar(255),
-    "country" varchar(255),
-    PRIMARY KEY ("token")
-);
-
-DROP TABLE IF EXISTS "public"."roles_managergroup";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."roles_managergroup" (
-    "name" varchar(200) NOT NULL,
-    "description" varchar(200) NOT NULL,
-    PRIMARY KEY ("name")
-);
-
-DROP TABLE IF EXISTS "public"."roles_managergroup_permissions";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS roles_managergroup_permissions_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."roles_managergroup_permissions" (
-    "id" int8 NOT NULL DEFAULT nextval('roles_managergroup_permissions_id_seq'::regclass),
-    "managergroup_id" varchar(200) NOT NULL,
-    "managerpermission_id" varchar(200) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."roles_managerpermission";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."roles_managerpermission" (
-    "name" varchar(200) NOT NULL,
-    "model" varchar(200) NOT NULL,
-    "description" varchar(200) NOT NULL,
-    "type" varchar(200) NOT NULL,
-    PRIMARY KEY ("name")
-);
-
-DROP TABLE IF EXISTS "public"."token_blacklist_blacklistedtoken";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS token_blacklist_blacklistedtoken_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."token_blacklist_blacklistedtoken" (
-    "id" int8 NOT NULL DEFAULT nextval('token_blacklist_blacklistedtoken_id_seq'::regclass),
-    "blacklisted_at" timestamptz NOT NULL,
-    "token_id" int8 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."token_blacklist_outstandingtoken";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS token_blacklist_outstandingtoken_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."token_blacklist_outstandingtoken" (
-    "id" int8 NOT NULL DEFAULT nextval('token_blacklist_outstandingtoken_id_seq'::regclass),
-    "token" text NOT NULL,
-    "created_at" timestamptz,
-    "expires_at" timestamptz NOT NULL,
-    "user_id" varchar(40),
-    "jti" varchar(255) NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."user_user";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Table Definition
-CREATE TABLE "public"."user_user" (
-    "password" varchar(128) NOT NULL,
-    "last_login" timestamptz,
-    "email" varchar(40) NOT NULL,
-    "first_name" varchar(40) NOT NULL,
-    "last_name" varchar(40) NOT NULL,
-    "birth_date" date,
-    "is_active" bool NOT NULL,
-    "is_admin" bool NOT NULL,
-    "is_staff" bool NOT NULL,
-    "is_superuser" bool NOT NULL,
-    PRIMARY KEY ("email")
-);
-
-DROP TABLE IF EXISTS "public"."user_user_groups";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS user_user_groups_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."user_user_groups" (
-    "id" int8 NOT NULL DEFAULT nextval('user_user_groups_id_seq'::regclass),
-    "user_id" varchar(40) NOT NULL,
-    "group_id" int4 NOT NULL,
-    PRIMARY KEY ("id")
-);
-
-DROP TABLE IF EXISTS "public"."user_user_user_permissions";
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
-CREATE SEQUENCE IF NOT EXISTS user_user_user_permissions_id_seq;
-
--- Table Definition
-CREATE TABLE "public"."user_user_user_permissions" (
-    "id" int8 NOT NULL DEFAULT nextval('user_user_user_permissions_id_seq'::regclass),
-    "user_id" varchar(40) NOT NULL,
-    "permission_id" int4 NOT NULL,
-    PRIMARY KEY ("id")
-);
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+-- GRANT ALL ON SCHEMA public TO postgres;
+-- GRANT ALL ON SCHEMA public TO public;
+-- COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+-- DROP TABLE IF EXISTS "public"."auth_group";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS auth_group_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."auth_group" (
+--     "id" int4 NOT NULL DEFAULT nextval('auth_group_id_seq'::regclass),
+--     "name" varchar(150) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."auth_group_permissions";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS auth_group_permissions_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."auth_group_permissions" (
+--     "id" int8 NOT NULL DEFAULT nextval('auth_group_permissions_id_seq'::regclass),
+--     "group_id" int4 NOT NULL,
+--     "permission_id" int4 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."auth_permission";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS auth_permission_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."auth_permission" (
+--     "id" int4 NOT NULL DEFAULT nextval('auth_permission_id_seq'::regclass),
+--     "name" varchar(255) NOT NULL,
+--     "content_type_id" int4 NOT NULL,
+--     "codename" varchar(100) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."authtoken_token";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."authtoken_token" (
+--     "key" varchar(40) NOT NULL,
+--     "created" timestamptz NOT NULL,
+--     "user_id" varchar(40) NOT NULL,
+--     PRIMARY KEY ("key")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_cart";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_cart" (
+--     "token" uuid NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "country_id" varchar(2),
+--     "user_id" varchar(40),
+--     "billing_info_id" int8,
+--     "shipping_info_id" int8,
+--     "payment_method_country_id" int8,
+--     "shipping_method_country_id" int8,
+--     "pricelist_id" varchar(200),
+--     PRIMARY KEY ("token")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_cartitem";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_cartitem_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_cartitem" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_cartitem_id_seq'::regclass),
+--     "unit_price_incl_vat" numeric(10,2),
+--     "unit_price_without_vat" numeric(10,2),
+--     "quantity" int4 NOT NULL,
+--     "cart_id" uuid,
+--     "product_variant_id" varchar(255),
+--     "product_id" int8,
+--     "discount" numeric(10,2),
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_paymentmethod";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_paymentmethod_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_paymentmethod" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethod_id_seq'::regclass),
+--     "image" varchar(100),
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_paymentmethod_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_paymentmethod_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_paymentmethod_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethod_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(255) NOT NULL,
+--     "description" text,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_paymentmethodcountry";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_paymentmethodcountry_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_paymentmethodcountry" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_paymentmethodcountry_id_seq'::regclass),
+--     "price" numeric(10,2) NOT NULL,
+--     "is_active" bool NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "country_id" varchar(2) NOT NULL,
+--     "currency_id" varchar(3) NOT NULL,
+--     "payment_method_id" int8 NOT NULL,
+--     "vat_group_id" int8 NOT NULL,
+--     "api_request" varchar(42),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_shippingmethod";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_shippingmethod_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_shippingmethod" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethod_id_seq'::regclass),
+--     "image" varchar(100),
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_shippingmethod_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_shippingmethod_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_shippingmethod_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethod_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(255) NOT NULL,
+--     "description" text,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_shippingmethodcountry";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_shippingmethodcountry_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_shippingmethodcountry" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethodcountry_id_seq'::regclass),
+--     "price" numeric(10,2) NOT NULL,
+--     "is_active" bool NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "country_id" varchar(2) NOT NULL,
+--     "currency_id" varchar(3) NOT NULL,
+--     "shipping_method_id" int8 NOT NULL,
+--     "vat_group_id" int8 NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cart_shippingmethodcountry_payment_methods";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cart_shippingmethodcountry_payment_methods_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cart_shippingmethodcountry_payment_methods" (
+--     "id" int8 NOT NULL DEFAULT nextval('cart_shippingmethodcountry_payment_methods_id_seq'::regclass),
+--     "shippingmethodcountry_id" int8 NOT NULL,
+--     "paymentmethodcountry_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."category_category";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS category_category_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."category_category" (
+--     "id" int8 NOT NULL DEFAULT nextval('category_category_id_seq'::regclass),
+--     "lft" int4 NOT NULL CHECK (lft >= 0),
+--     "rght" int4 NOT NULL CHECK (rght >= 0),
+--     "tree_id" int4 NOT NULL CHECK (tree_id >= 0),
+--     "level" int4 NOT NULL CHECK (level >= 0),
+--     "parent_id" int8,
+--     "create_at" timestamptz NOT NULL,
+--     "published" bool NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."category_category_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS category_category_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."category_category_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('category_category_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(200) NOT NULL,
+--     "meta_title" varchar(200) NOT NULL,
+--     "meta_description" text NOT NULL,
+--     "description" text,
+--     "slug" varchar(200) NOT NULL,
+--     "master_id" int8,
+--     "description_editorjs" jsonb,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_page";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_page_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_page" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_page_id_seq'::regclass),
+--     "published" bool NOT NULL,
+--     "ordering" int4 NOT NULL,
+--     "recommended" bool NOT NULL,
+--     "polymorphic_ctype_id" int4,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_page_categories";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_page_categories_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_page_categories" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_page_categories_id_seq'::regclass),
+--     "page_id" int8 NOT NULL,
+--     "pagecategory_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecategory";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecategory" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_id_seq'::regclass),
+--     "sort_order" int4,
+--     "published" bool NOT NULL,
+--     "code" varchar(20) NOT NULL,
+--     "ordering" int4 NOT NULL,
+--     "image" varchar(100),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecategory_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecategory_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(250) NOT NULL,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecategory_type";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagecategory_type_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecategory_type" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagecategory_type_id_seq'::regclass),
+--     "pagecategory_id" int8 NOT NULL,
+--     "pagecategorytype_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecategorytype";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagecategorytype_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecategorytype" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagecategorytype_id_seq'::regclass),
+--     "identifier" varchar(100) NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecms";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecms" (
+--     "page_ptr_id" int8 NOT NULL,
+--     PRIMARY KEY ("page_ptr_id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagecms_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagecms_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagecms_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagecms_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "slug" varchar(255) NOT NULL,
+--     "title" varchar(250) NOT NULL,
+--     "content" jsonb,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagefrontend";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagefrontend" (
+--     "page_ptr_id" int8 NOT NULL,
+--     "frontend_path" varchar(250) NOT NULL,
+--     PRIMARY KEY ("page_ptr_id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."cms_pagefrontend_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS cms_pagefrontend_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."cms_pagefrontend_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('cms_pagefrontend_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(250) NOT NULL,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."country_billinginfo";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS country_billingaddress_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."country_billinginfo" (
+--     "id" int8 NOT NULL DEFAULT nextval('country_billingaddress_id_seq'::regclass),
+--     "first_name" varchar(255) NOT NULL,
+--     "surname" varchar(255) NOT NULL,
+--     "street" varchar(255) NOT NULL,
+--     "city" varchar(255) NOT NULL,
+--     "postal_code" varchar(255) NOT NULL,
+--     "company_name" varchar(255),
+--     "company_id" varchar(255),
+--     "vat_number" varchar(255),
+--     "country_id" varchar(2) NOT NULL,
+--     "user_id" varchar(40),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."country_country";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."country_country" (
+--     "code" varchar(2) NOT NULL,
+--     "name" varchar(200) NOT NULL,
+--     "locale" varchar(2) NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "default_price_list_id" varchar(200),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("code")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."country_currency";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."country_currency" (
+--     "code" varchar(3) NOT NULL,
+--     "symbol" varchar(3) NOT NULL,
+--     "symbol_position" varchar(6) NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("code")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."country_shippinginfo";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS country_shippingaddress_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."country_shippinginfo" (
+--     "id" int8 NOT NULL DEFAULT nextval('country_shippingaddress_id_seq'::regclass),
+--     "first_name" varchar(255) NOT NULL,
+--     "surname" varchar(255) NOT NULL,
+--     "street" varchar(255) NOT NULL,
+--     "city" varchar(255) NOT NULL,
+--     "postal_code" varchar(255) NOT NULL,
+--     "email" varchar(255),
+--     "phone" varchar(255),
+--     "additional_info" text,
+--     "country_id" varchar(2) NOT NULL,
+--     "user_id" varchar(40),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."country_vatgroup";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS country_vatgroup_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."country_vatgroup" (
+--     "id" int8 NOT NULL DEFAULT nextval('country_vatgroup_id_seq'::regclass),
+--     "name" varchar(200) NOT NULL,
+--     "rate" numeric(5,2) NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "country_id" varchar(2) NOT NULL,
+--     "is_default" bool NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."django_admin_log";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS django_admin_log_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."django_admin_log" (
+--     "id" int4 NOT NULL DEFAULT nextval('django_admin_log_id_seq'::regclass),
+--     "action_time" timestamptz NOT NULL,
+--     "object_id" text,
+--     "object_repr" varchar(200) NOT NULL,
+--     "action_flag" int2 NOT NULL CHECK (action_flag >= 0),
+--     "change_message" text NOT NULL,
+--     "content_type_id" int4,
+--     "user_id" varchar(40) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."django_content_type";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS django_content_type_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."django_content_type" (
+--     "id" int4 NOT NULL DEFAULT nextval('django_content_type_id_seq'::regclass),
+--     "app_label" varchar(100) NOT NULL,
+--     "model" varchar(100) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."django_migrations";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS django_migrations_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."django_migrations" (
+--     "id" int8 NOT NULL DEFAULT nextval('django_migrations_id_seq'::regclass),
+--     "app" varchar(255) NOT NULL,
+--     "name" varchar(255) NOT NULL,
+--     "applied" timestamptz NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."django_session";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."django_session" (
+--     "session_key" varchar(40) NOT NULL,
+--     "session_data" text NOT NULL,
+--     "expire_date" timestamptz NOT NULL,
+--     PRIMARY KEY ("session_key")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."order_order";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."order_order" (
+--     "token" uuid NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "cart_id" uuid,
+--     "status" varchar(10) NOT NULL,
+--     "agreed_to_terms" bool NOT NULL,
+--     "marketing_flag" bool NOT NULL,
+--     "payment_id" varchar(100),
+--     PRIMARY KEY ("token")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_attributetype";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_attributetype_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_attributetype" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_attributetype_id_seq'::regclass),
+--     "type_name" varchar(200),
+--     "unit" varchar(200),
+--     "value_type" varchar(10) NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_attributetype_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_attributetype_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_attributetype_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_attributetype_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "name" varchar(200) NOT NULL,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_baseattribute";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_baseattribute_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_baseattribute" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_id_seq'::regclass),
+--     "value" varchar(200),
+--     "order" int4,
+--     "type_id" int8 NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_baseattribute_ext_attributes";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_baseattribute_ext_attributes_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_baseattribute_ext_attributes" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_ext_attributes_id_seq'::regclass),
+--     "baseattribute_id" int8 NOT NULL,
+--     "extensionattribute_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_baseattribute_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_baseattribute_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_baseattribute_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_baseattribute_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "name" varchar(200) NOT NULL,
+--     "master_id" int8,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_extattributetype";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_extattributetype_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_extattributetype" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_extattributetype_id_seq'::regclass),
+--     "type_name" varchar(200) NOT NULL,
+--     "unit" varchar(200),
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_extensionattribute";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_extensionattribute_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_extensionattribute" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_extensionattribute_id_seq'::regclass),
+--     "value" varchar(200) NOT NULL,
+--     "type_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_extensionattribute_ext_attributes";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_extensionattribute_ext_attributes_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_extensionattribute_ext_attributes" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_extensionattribute_ext_attributes_id_seq'::regclass),
+--     "from_extensionattribute_id" int8 NOT NULL,
+--     "to_extensionattribute_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_pricelist";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_pricelist" (
+--     "code" varchar(200) NOT NULL,
+--     "rounding" bool NOT NULL,
+--     "currency_id" varchar(3) NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "is_default" bool NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("code")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_product";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_product_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_product" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_product_id_seq'::regclass),
+--     "published" bool NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "category_id" int8,
+--     "type_id" int8,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_product_product_variants";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_product_product_variants_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_product_product_variants" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_product_product_variants_id_seq'::regclass),
+--     "product_id" int8 NOT NULL,
+--     "productvariant_id" varchar(255) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_product_translation";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_product_translation_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_product_translation" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_product_translation_id_seq'::regclass),
+--     "language_code" varchar(15) NOT NULL,
+--     "title" varchar(200) NOT NULL,
+--     "meta_title" varchar(200) NOT NULL,
+--     "meta_description" text NOT NULL,
+--     "short_description" text,
+--     "description" text,
+--     "slug" varchar(200) NOT NULL,
+--     "master_id" int8,
+--     "description_editorjs" jsonb,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_productmedia";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_productmedia_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_productmedia" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_productmedia_id_seq'::regclass),
+--     "sort_order" int4,
+--     "media" varchar(100) NOT NULL,
+--     "type" varchar(10) NOT NULL,
+--     "alt" varchar(128),
+--     "product_id" int8,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_productprice";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_productprice_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_productprice" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_productprice_id_seq'::regclass),
+--     "price" numeric(10,2) NOT NULL,
+--     "price_list_id" varchar(200) NOT NULL,
+--     "product_variant_id" varchar(255),
+--     "create_at" timestamptz NOT NULL,
+--     "update_at" timestamptz NOT NULL,
+--     "discount" numeric(10,2),
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_producttype";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_producttype_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_producttype" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_producttype_id_seq'::regclass),
+--     "name" varchar(200),
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_producttype_allowed_attribute_types";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_producttype_allowed_attribute_types_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_producttype_allowed_attribute_types" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_producttype_allowed_attribute_types_id_seq'::regclass),
+--     "producttype_id" int8 NOT NULL,
+--     "attributetype_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_producttype_vat_groups";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_producttype_vat_groups_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_producttype_vat_groups" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_producttype_vat_groups_id_seq'::regclass),
+--     "producttype_id" int8 NOT NULL,
+--     "vatgroup_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_productvariant";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_productvariant" (
+--     "sku" varchar(255) NOT NULL,
+--     "ean" varchar(13) NOT NULL,
+--     "weight" numeric(10,2),
+--     "update_at" timestamptz NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "stock_quantity" int4 NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("sku")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_productvariant_attributes";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_productvariant_attributes_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_productvariant_attributes" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_productvariant_attributes_id_seq'::regclass),
+--     "productvariant_id" varchar(255) NOT NULL,
+--     "baseattribute_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."product_productvariantmedia";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS product_productvariantmedia_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."product_productvariantmedia" (
+--     "id" int8 NOT NULL DEFAULT nextval('product_productvariantmedia_id_seq'::regclass),
+--     "media_id" int8 NOT NULL,
+--     "product_variant_id" varchar(255) NOT NULL,
+--     "safe_deleted" bool NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."review_review";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."review_review" (
+--     "token" uuid NOT NULL,
+--     "create_at" timestamptz NOT NULL,
+--     "rating" int4 NOT NULL,
+--     "comment" text NOT NULL,
+--     "order_id" uuid,
+--     "product_id" int8,
+--     "product_variant_id" varchar(255),
+--     "country" varchar(255),
+--     PRIMARY KEY ("token")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."roles_managergroup";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."roles_managergroup" (
+--     "name" varchar(200) NOT NULL,
+--     "description" varchar(200) NOT NULL,
+--     PRIMARY KEY ("name")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."roles_managergroup_permissions";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS roles_managergroup_permissions_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."roles_managergroup_permissions" (
+--     "id" int8 NOT NULL DEFAULT nextval('roles_managergroup_permissions_id_seq'::regclass),
+--     "managergroup_id" varchar(200) NOT NULL,
+--     "managerpermission_id" varchar(200) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."roles_managerpermission";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."roles_managerpermission" (
+--     "name" varchar(200) NOT NULL,
+--     "model" varchar(200) NOT NULL,
+--     "description" varchar(200) NOT NULL,
+--     "type" varchar(200) NOT NULL,
+--     PRIMARY KEY ("name")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."token_blacklist_blacklistedtoken";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS token_blacklist_blacklistedtoken_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."token_blacklist_blacklistedtoken" (
+--     "id" int8 NOT NULL DEFAULT nextval('token_blacklist_blacklistedtoken_id_seq'::regclass),
+--     "blacklisted_at" timestamptz NOT NULL,
+--     "token_id" int8 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."token_blacklist_outstandingtoken";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS token_blacklist_outstandingtoken_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."token_blacklist_outstandingtoken" (
+--     "id" int8 NOT NULL DEFAULT nextval('token_blacklist_outstandingtoken_id_seq'::regclass),
+--     "token" text NOT NULL,
+--     "created_at" timestamptz,
+--     "expires_at" timestamptz NOT NULL,
+--     "user_id" varchar(40),
+--     "jti" varchar(255) NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."user_user";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Table Definition
+-- CREATE TABLE "public"."user_user" (
+--     "password" varchar(128) NOT NULL,
+--     "last_login" timestamptz,
+--     "email" varchar(40) NOT NULL,
+--     "first_name" varchar(40) NOT NULL,
+--     "last_name" varchar(40) NOT NULL,
+--     "birth_date" date,
+--     "is_active" bool NOT NULL,
+--     "is_admin" bool NOT NULL,
+--     "is_staff" bool NOT NULL,
+--     "is_superuser" bool NOT NULL,
+--     PRIMARY KEY ("email")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."user_user_groups";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS user_user_groups_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."user_user_groups" (
+--     "id" int8 NOT NULL DEFAULT nextval('user_user_groups_id_seq'::regclass),
+--     "user_id" varchar(40) NOT NULL,
+--     "group_id" int4 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
+
+-- DROP TABLE IF EXISTS "public"."user_user_user_permissions";
+-- -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- -- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS user_user_user_permissions_id_seq;
+
+-- -- Table Definition
+-- CREATE TABLE "public"."user_user_user_permissions" (
+--     "id" int8 NOT NULL DEFAULT nextval('user_user_user_permissions_id_seq'::regclass),
+--     "user_id" varchar(40) NOT NULL,
+--     "permission_id" int4 NOT NULL,
+--     PRIMARY KEY ("id")
+-- );
 
 INSERT INTO "public"."auth_group" ("id", "name") VALUES
 (1, 'Editor'),
@@ -29903,86 +29903,86 @@ INSERT INTO "public"."user_user" ("password", "last_login", "email", "first_name
 INSERT INTO "public"."user_user_groups" ("id", "user_id", "group_id") VALUES
 (2, 'test@example.com', 2);
 
-ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
-ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
-ALTER TABLE "public"."auth_permission" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
-ALTER TABLE "public"."authtoken_token" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_paymentmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_shippingmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("paymentmethodcountry_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("shippingmethodcountry_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."category_category_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
-ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
-ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("page_id") REFERENCES "public"."cms_page"("id");
-ALTER TABLE "public"."cms_pagecategory_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecategory"("id");
-ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
-ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategorytype_id") REFERENCES "public"."cms_pagecategorytype"("id");
-ALTER TABLE "public"."cms_pagecms" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
-ALTER TABLE "public"."cms_pagecms_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecms"("page_ptr_id");
-ALTER TABLE "public"."cms_pagefrontend" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
-ALTER TABLE "public"."cms_pagefrontend_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagefrontend"("page_ptr_id");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
-ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."order_order" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."product_attributetype_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_attributetype"("id");
-ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_attributetype"("id");
-ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
-ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
-ALTER TABLE "public"."product_baseattribute_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_baseattribute"("id");
-ALTER TABLE "public"."product_extensionattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_extattributetype"("id");
-ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("to_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
-ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("from_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
-ALTER TABLE "public"."product_pricelist" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."product_product_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("price_list_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("attributetype_id") REFERENCES "public"."product_attributetype"("id");
-ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("vatgroup_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
-ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("media_id") REFERENCES "public"."product_productmedia"("id");
-ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
-ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managerpermission_id") REFERENCES "public"."roles_managerpermission"("name");
-ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managergroup_id") REFERENCES "public"."roles_managergroup"("name");
-ALTER TABLE "public"."token_blacklist_blacklistedtoken" ADD FOREIGN KEY ("token_id") REFERENCES "public"."token_blacklist_outstandingtoken"("id");
-ALTER TABLE "public"."token_blacklist_outstandingtoken" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
-ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
+-- ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
+-- ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
+-- ALTER TABLE "public"."auth_permission" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
+-- ALTER TABLE "public"."authtoken_token" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+-- ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+-- ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+-- ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+-- ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."cart_paymentmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_paymentmethod"("id");
+-- ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+-- ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+-- ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+-- ALTER TABLE "public"."cart_shippingmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_shippingmethod"("id");
+-- ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+-- ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+-- ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+-- ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("paymentmethodcountry_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+-- ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("shippingmethodcountry_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+-- ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
+-- ALTER TABLE "public"."category_category_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."category_category"("id");
+-- ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
+-- ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
+-- ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("page_id") REFERENCES "public"."cms_page"("id");
+-- ALTER TABLE "public"."cms_pagecategory_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecategory"("id");
+-- ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
+-- ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategorytype_id") REFERENCES "public"."cms_pagecategorytype"("id");
+-- ALTER TABLE "public"."cms_pagecms" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
+-- ALTER TABLE "public"."cms_pagecms_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecms"("page_ptr_id");
+-- ALTER TABLE "public"."cms_pagefrontend" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
+-- ALTER TABLE "public"."cms_pagefrontend_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagefrontend"("page_ptr_id");
+-- ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
+-- ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+-- ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
+-- ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."order_order" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+-- ALTER TABLE "public"."product_attributetype_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_attributetype"("id");
+-- ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_attributetype"("id");
+-- ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
+-- ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
+-- ALTER TABLE "public"."product_baseattribute_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_baseattribute"("id");
+-- ALTER TABLE "public"."product_extensionattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_extattributetype"("id");
+-- ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("to_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
+-- ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("from_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
+-- ALTER TABLE "public"."product_pricelist" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+-- ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+-- ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+-- ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+-- ALTER TABLE "public"."product_product_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_product"("id");
+-- ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+-- ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("price_list_id") REFERENCES "public"."product_pricelist"("code");
+-- ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("attributetype_id") REFERENCES "public"."product_attributetype"("id");
+-- ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
+-- ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("vatgroup_id") REFERENCES "public"."country_vatgroup"("id");
+-- ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
+-- ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
+-- ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("media_id") REFERENCES "public"."product_productmedia"("id");
+-- ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
+-- ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+-- ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+-- ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managerpermission_id") REFERENCES "public"."roles_managerpermission"("name");
+-- ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managergroup_id") REFERENCES "public"."roles_managergroup"("name");
+-- ALTER TABLE "public"."token_blacklist_blacklistedtoken" ADD FOREIGN KEY ("token_id") REFERENCES "public"."token_blacklist_outstandingtoken"("id");
+-- ALTER TABLE "public"."token_blacklist_outstandingtoken" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
+-- ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+-- ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
