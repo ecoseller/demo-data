@@ -12172,6 +12172,9 @@ INSERT INTO public.category_ancestor (category_id,category_ancestor_id,deleted) 
 	 (4,2,false),
 	 (5,2,false),
 	 (2,2,false);
+	 (3,3,false);
+	 (4,4,false);
+	 (5,5,false);
 INSERT INTO public."order" ("token",update_at,create_at,session_id,deleted) VALUES
 	 ('95029f63-2a51-48b3-9028-ca77b76051d4','2023-07-18 01:12:07.590858','2023-07-18 01:12:07.590866','1',false),
 	 ('03d77cd8-e3ff-46ca-b086-41cf79205d31','2023-07-18 01:12:07.590914','2023-07-18 01:12:07.590914','2',false),
