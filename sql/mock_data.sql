@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: ecoseller
--- Generation Time: 2023-07-13 14:00:54.0330
+-- Generation Time: 2023-07-18 22:58:29.9790
 -- -------------------------------------------------------------
 
 
@@ -1059,8 +1059,10 @@ INSERT INTO "public"."auth_group_permissions" ("id", "group_id", "permission_id"
 (22, 2, 58),
 (23, 2, 107),
 (24, 2, 135),
-(25, 3, 166),
-(26, 3, 167);
+(27, 3, 166),
+(28, 3, 167),
+(29, 3, 10),
+(30, 3, 9);
 
 INSERT INTO "public"."auth_permission" ("id", "name", "content_type_id", "codename") VALUES
 (1, 'Can add log entry', 1, 'add_logentry'),
@@ -1237,6 +1239,17 @@ INSERT INTO "public"."auth_permission" ("id", "name", "content_type_id", "codena
 (172, 'Can delete order item complaint', 53, 'delete_orderitemcomplaint'),
 (173, 'Can view order item complaint', 53, 'view_orderitemcomplaint');
 
+INSERT INTO "public"."cart_cart" ("token", "update_at", "create_at", "country_id", "user_id", "billing_info_id", "shipping_info_id", "payment_method_country_id", "shipping_method_country_id", "pricelist_id") VALUES
+('21562c36-c32e-4ed5-bc93-d23397572277', '2023-07-18 20:54:28.128686+00', '2023-07-18 20:46:11.243294+00', 'CZ', NULL, 1, 1, 1, 1, 'CZK_retail'),
+('e3302b2b-01d9-4d3a-8917-449ac81ad61b', '2023-07-18 20:54:32.852925+00', '2023-07-18 20:47:41.229214+00', 'CZ', NULL, 2, 2, 19, 15, 'CZK_retail'),
+('e775d286-6000-468d-9b1d-241d855d7b87', '2023-07-18 20:50:29.403132+00', '2023-07-18 20:49:03.188939+00', 'DE', NULL, 3, 3, 6, 4, 'EUR_retail');
+
+INSERT INTO "public"."cart_cartitem" ("id", "unit_price_incl_vat", "unit_price_without_vat", "quantity", "cart_id", "product_variant_id", "product_id", "discount") VALUES
+(1, 205.70, 170.00, 1, '21562c36-c32e-4ed5-bc93-d23397572277', '159858-en-720p', 159858, NULL),
+(2, 330.33, 273.00, 1, '21562c36-c32e-4ed5-bc93-d23397572277', '40278-en-1080p', 40278, NULL),
+(3, 264.99, 219.00, 1, 'e3302b2b-01d9-4d3a-8917-449ac81ad61b', '95105-en-1080p', 95105, NULL),
+(5, 11.95, 10.04, 1, 'e775d286-6000-468d-9b1d-241d855d7b87', '117590-en-720p', 117590, NULL);
+
 INSERT INTO "public"."cart_paymentmethod" ("id", "image", "update_at", "create_at", "safe_deleted") VALUES
 (1, '', '2023-07-07 07:37:13.917893+00', '2023-07-07 07:34:55.724067+00', 'f'),
 (2, '', '2023-07-07 07:42:04.825276+00', '2023-07-07 07:37:17.523842+00', 'f'),
@@ -1400,6 +1413,49 @@ INSERT INTO "public"."category_category_translation" ("id", "language_code", "ti
 (9, 'en', 'Games', 'Games - products', '', '', 'games', 5, '{}'),
 (10, 'cs', 'Hry', 'Hry - produkty', '', '', 'hry', 5, '{}');
 
+INSERT INTO "public"."cms_page" ("id", "published", "ordering", "recommended", "polymorphic_ctype_id", "safe_deleted") VALUES
+(1, 't', 0, 'f', 21, 'f'),
+(2, 't', 0, 'f', 21, 'f');
+
+INSERT INTO "public"."cms_page_categories" ("id", "page_id", "pagecategory_id") VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 1);
+
+INSERT INTO "public"."cms_pagecategory" ("id", "sort_order", "published", "code", "ordering", "image", "safe_deleted") VALUES
+(1, 0, 't', 'ABOUTUS', 0, '', 'f'),
+(2, 0, 't', 'CONTACT', 0, '', 'f');
+
+INSERT INTO "public"."cms_pagecategory_translation" ("id", "language_code", "title", "master_id") VALUES
+(1, 'en', 'About us', 1),
+(2, 'cs', 'O nás', 1),
+(3, 'en', 'Contact', 2),
+(4, 'cs', 'Kontakt', 2);
+
+INSERT INTO "public"."cms_pagecategory_type" ("id", "pagecategory_id", "pagecategorytype_id") VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 2, 2);
+
+INSERT INTO "public"."cms_pagecategorytype" ("id", "identifier", "safe_deleted") VALUES
+(1, 'FOOTER', 'f'),
+(2, 'HEADER', 'f');
+
+INSERT INTO "public"."cms_pagecms" ("page_ptr_id") VALUES
+(1),
+(2);
+
+INSERT INTO "public"."cms_pagecms_translation" ("id", "language_code", "slug", "title", "content", "master_id") VALUES
+(1, 'en', 'contact', 'Contact', '{"time": 1689713751197, "blocks": [{"id": "ITl8PPmxpf", "data": {"text": "Contact", "level": 2}, "type": "header"}, {"id": "K5uX3_Hr6O", "data": {"text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla non arcu lacinia neque faucibus fringilla. Aliquam ante. Aliquam ornare wisi eu metus. Nunc auctor. Suspendisse sagittis ultrices augue. Nulla non lectus sed nisl molestie malesuada. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Et harum quidem rerum facilis est et expedita distinctio. Nullam eget nisl. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quisque porta. Nullam eget nisl. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo."}, "type": "paragraph"}], "version": "2.26.5"}', 1),
+(2, 'cs', 'kontakt', 'Kontakt', '{"time": 1689713759274, "blocks": [{"id": "Ui_Tt9VTBH", "data": {"text": "Kontakt", "level": 2}, "type": "header"}, {"id": "AT3KbiGj0_", "data": {"text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla non arcu lacinia neque faucibus fringilla. Aliquam ante. Aliquam ornare wisi eu metus. Nunc auctor. Suspendisse sagittis ultrices augue. Nulla non lectus sed nisl molestie malesuada. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Et harum quidem rerum facilis est et expedita distinctio. Nullam eget nisl. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quisque porta. Nullam eget nisl. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo."}, "type": "paragraph"}], "version": "2.26.5"}', 1),
+(3, 'en', 'about-us', 'About us', '{"time": 1689713782140, "blocks": [{"id": "F7PqUtZtTa", "data": {"text": "About us", "level": 2}, "type": "header"}, {"id": "eD2LfXwzQr", "data": {"text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla non arcu lacinia neque faucibus fringilla. Aliquam ante. Aliquam ornare wisi eu metus. Nunc auctor. Suspendisse sagittis ultrices augue. Nulla non lectus sed nisl molestie malesuada. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Et harum quidem rerum facilis est et expedita distinctio. Nullam eget nisl. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quisque porta. Nullam eget nisl. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo."}, "type": "paragraph"}], "version": "2.26.5"}', 2),
+(4, 'cs', 'o-nas', 'O nás', '{"time": 1689713774194, "blocks": [{"id": "v2ZMkb40tB", "data": {"text": "O nás", "level": 2}, "type": "header"}, {"id": "pIaeE6eTdE", "data": {"text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla non arcu lacinia neque faucibus fringilla. Aliquam ante. Aliquam ornare wisi eu metus. Nunc auctor. Suspendisse sagittis ultrices augue. Nulla non lectus sed nisl molestie malesuada. Fusce dui leo, imperdiet in, aliquam sit amet, feugiat eu, orci. Et harum quidem rerum facilis est et expedita distinctio. Nullam eget nisl. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Quisque porta. Nullam eget nisl. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo."}, "type": "paragraph"}], "version": "2.26.5"}', 2);
+
+INSERT INTO "public"."country_billinginfo" ("id", "first_name", "surname", "street", "city", "postal_code", "company_name", "company_id", "vat_number", "country_id", "user_id", "safe_deleted") VALUES
+(1, 'John', 'Doe', 'Sibeliova 997/43', 'Praha', '162 00', '', '', '', 'CZ', NULL, 'f'),
+(2, 'Jane', 'Doe', 'Šaldova 493/10', 'Praha', '18000', '', '', '', 'CZ', NULL, 'f'),
+(3, 'Tobias', 'Doe', 'Baaderstraße 27', 'Munchen', '80469', '', '', '', 'DE', NULL, 'f');
+
 INSERT INTO "public"."country_country" ("code", "name", "locale", "update_at", "create_at", "default_price_list_id", "safe_deleted") VALUES
 ('AT', 'Austria', 'en', '2023-07-07 07:00:09.167457+00', '2023-07-07 07:00:09.167484+00', 'EUR_retail', 'f'),
 ('BE', 'Belgium', 'en', '2023-07-07 07:08:59.611139+00', '2023-07-07 07:08:59.611173+00', 'EUR_retail', 'f'),
@@ -1420,6 +1476,11 @@ INSERT INTO "public"."country_currency" ("code", "symbol", "symbol_position", "c
 ('CZK', 'Kč', 'AFTER', '2023-07-07 06:56:39.285199+00', '2023-07-07 06:56:39.285142+00', 'f'),
 ('EUR', '€', 'AFTER', '2023-07-07 06:56:43.001655+00', '2023-07-07 06:56:43.001622+00', 'f'),
 ('PLN', 'zł', 'AFTER', '2023-07-07 06:56:58.658177+00', '2023-07-07 06:56:58.658152+00', 'f');
+
+INSERT INTO "public"."country_shippinginfo" ("id", "first_name", "surname", "street", "city", "postal_code", "email", "phone", "additional_info", "country_id", "user_id", "safe_deleted") VALUES
+(1, 'John', 'Doe', 'Sibeliova 997/43', 'Praha', '162 00', 'j.doe@example.com', '123456789', '', 'CZ', NULL, 'f'),
+(2, 'Jane', 'Doe', 'Šaldova 493/10', 'Praha', '18000', 'jane.doe@example.com', '123456789', '', 'CZ', NULL, 'f'),
+(3, 'Tobias', 'Doe', 'Baaderstraße 27', 'Munchen', '80469', 't.doe@example.de', '123456789', '', 'DE', NULL, 'f');
 
 INSERT INTO "public"."country_vatgroup" ("id", "name", "rate", "update_at", "create_at", "country_id", "is_default", "safe_deleted") VALUES
 (1, 'CZ_STANDARD', 21.00, '2023-07-07 07:01:20.844611+00', '2023-07-07 07:01:20.844663+00', 'CZ', 't', 'f'),
@@ -1663,6 +1724,11 @@ INSERT INTO "public"."django_migrations" ("id", "app", "name", "applied") VALUES
 (155, 'user', '0007_remove_user_cart', '2023-07-06 22:00:40.538755+00'),
 (156, 'user', '0008_user_is_superuser', '2023-07-06 22:00:40.548968+00'),
 (157, 'order', '0006_orderitemcomplaint', '2023-07-13 11:55:56.057067+00');
+
+INSERT INTO "public"."order_order" ("token", "create_at", "cart_id", "status", "agreed_to_terms", "marketing_flag", "payment_id") VALUES
+('1c904ab7-4c74-4646-97c4-31dc4a9e48ec', '2023-07-18 20:50:32.060445+00', 'e775d286-6000-468d-9b1d-241d855d7b87', 'PENDING', 't', 't', '123456789'),
+('5da579f1-29c5-488d-b09a-30d10c11d837', '2023-07-18 20:48:44.417958+00', 'e3302b2b-01d9-4d3a-8917-449ac81ad61b', 'PROCESSING', 't', 't', '1234567890'),
+('bbd9d352-98a2-4dec-94f2-d62bd5bff540', '2023-07-18 20:47:31.523269+00', '21562c36-c32e-4ed5-bc93-d23397572277', 'SHIPPED', 't', 't', NULL);
 
 INSERT INTO "public"."product_attributetype" ("id", "type_name", "unit", "value_type", "safe_deleted") VALUES
 (1, 'GENRE', NULL, 'TEXT', 'f'),
@@ -16812,7 +16878,7 @@ INSERT INTO "public"."product_productvariant" ("sku", "ean", "weight", "update_a
 ('117529-cs-720p', '', 151.00, '2023-07-09 17:40:59.801902+00', '2023-07-09 17:40:59.788782+00', 57, 'f'),
 ('117533-en-1080p', '', 233.00, '2023-07-09 17:40:59.911031+00', '2023-07-09 17:40:59.895657+00', 29, 'f'),
 ('117590-cs-720p', '', 250.00, '2023-07-09 17:41:00.033016+00', '2023-07-09 17:41:00.020708+00', 86, 'f'),
-('117590-en-720p', '', 133.00, '2023-07-09 17:41:00.007332+00', '2023-07-09 17:40:59.996339+00', 36, 'f'),
+('117590-en-720p', '', 133.00, '2023-07-18 20:50:32.065066+00', '2023-07-09 17:40:59.996339+00', 35, 'f'),
 ('117851-cs-720p', '', 103.00, '2023-07-09 17:41:00.175995+00', '2023-07-09 17:41:00.161889+00', 5, 'f'),
 ('117881-cs-1080p', '', 106.00, '2023-07-09 17:41:00.275508+00', '2023-07-09 17:41:00.264662+00', 2, 'f'),
 ('117887-en-1080p', '', 136.00, '2023-07-09 17:41:00.37363+00', '2023-07-09 17:41:00.359348+00', 19, 'f'),
@@ -17134,7 +17200,7 @@ INSERT INTO "public"."product_productvariant" ("sku", "ean", "weight", "update_a
 ('159817-en-1080p', '', 164.00, '2023-07-09 17:41:24.252032+00', '2023-07-09 17:41:24.237422+00', 2, 'f'),
 ('159849-cs-720p', '', 181.00, '2023-07-09 17:41:24.385234+00', '2023-07-09 17:41:24.366631+00', 7, 'f'),
 ('159858-cs-720p', '', 200.00, '2023-07-09 17:41:24.551879+00', '2023-07-09 17:41:24.536235+00', 34, 'f'),
-('159858-en-720p', '', 103.00, '2023-07-09 17:41:24.521656+00', '2023-07-09 17:41:24.502418+00', 57, 'f'),
+('159858-en-720p', '', 103.00, '2023-07-18 20:47:31.527237+00', '2023-07-09 17:41:24.502418+00', 56, 'f'),
 ('16-cs-1080p', '', 228.00, '2023-07-09 17:38:11.210114+00', '2023-07-09 17:38:11.200189+00', 8, 'f'),
 ('16-en-1080p', '', 241.00, '2023-07-09 17:38:11.188579+00', '2023-07-09 17:38:11.175293+00', 69, 'f'),
 ('160080-cs-1080p', '', 113.00, '2023-07-09 17:41:24.743496+00', '2023-07-09 17:41:24.727261+00', 28, 'f'),
@@ -17660,7 +17726,7 @@ INSERT INTO "public"."product_productvariant" ("sku", "ean", "weight", "update_a
 ('4025-cs-720p', '', 185.00, '2023-07-09 17:38:38.896788+00', '2023-07-09 17:38:38.88298+00', 31, 'f'),
 ('4027-cs-1080p', '', 140.00, '2023-07-09 17:38:39.019527+00', '2023-07-09 17:38:39.007425+00', 83, 'f'),
 ('40278-cs-720p', '', 178.00, '2023-07-09 17:39:12.517763+00', '2023-07-09 17:39:12.504033+00', 0, 'f'),
-('40278-en-1080p', '', 124.00, '2023-07-09 17:39:12.491604+00', '2023-07-09 17:39:12.475861+00', 76, 'f'),
+('40278-en-1080p', '', 124.00, '2023-07-18 20:47:31.56973+00', '2023-07-09 17:39:12.475861+00', 75, 'f'),
 ('4034-cs-1080p', '', 137.00, '2023-07-09 17:38:39.141861+00', '2023-07-09 17:38:39.110854+00', 27, 'f'),
 ('4034-en-1080p', '', 190.00, '2023-07-09 17:38:39.100188+00', '2023-07-09 17:38:39.088979+00', 6, 'f'),
 ('40583-en-720p', '', 196.00, '2023-07-09 17:39:12.659256+00', '2023-07-09 17:39:12.644353+00', 84, 'f'),
@@ -18660,7 +18726,7 @@ INSERT INTO "public"."product_productvariant" ("sku", "ean", "weight", "update_a
 ('94959-cs-1080p', '', 133.00, '2023-07-09 17:40:28.721996+00', '2023-07-09 17:40:28.706479+00', 78, 'f'),
 ('95088-cs-720p', '', 179.00, '2023-07-09 17:40:28.867828+00', '2023-07-09 17:40:28.850938+00', 15, 'f'),
 ('95088-en-720p', '', 149.00, '2023-07-09 17:40:28.837257+00', '2023-07-09 17:40:28.822826+00', 62, 'f'),
-('95105-en-1080p', '', 250.00, '2023-07-09 17:40:29.024322+00', '2023-07-09 17:40:29.011407+00', 24, 'f'),
+('95105-en-1080p', '', 250.00, '2023-07-18 20:48:44.422007+00', '2023-07-09 17:40:29.011407+00', 23, 'f'),
 ('95167-cs-720p', '', 221.00, '2023-07-09 17:40:29.137868+00', '2023-07-09 17:40:29.122807+00', 5, 'f'),
 ('95309-en-720p', '', 114.00, '2023-07-09 17:40:29.235055+00', '2023-07-09 17:40:29.219257+00', 30, 'f'),
 ('95311-en-720p', '', 203.00, '2023-07-09 17:40:29.336771+00', '2023-07-09 17:40:29.321002+00', 32, 'f'),
@@ -29745,8 +29811,10 @@ INSERT INTO "public"."roles_managergroup_permissions" ("id", "managergroup_id", 
 (23, 'Copywriter', 'product_change_permission'),
 (24, 'Copywriter', 'productmedia_change_permission'),
 (25, 'Copywriter', 'category_change_permission'),
-(26, 'UserManager', 'user_add_permission'),
-(27, 'UserManager', 'user_change_permission');
+(28, 'UserManager', 'user_add_permission'),
+(29, 'UserManager', 'user_change_permission'),
+(30, 'UserManager', 'group_change_permission'),
+(31, 'UserManager', 'group_add_permission');
 
 INSERT INTO "public"."roles_managerpermission" ("name", "model", "description", "type") VALUES
 ('attributetype_add_permission', 'attributetype', 'Can add attribute type', 'add'),
@@ -29919,42 +29987,42 @@ INSERT INTO "public"."roles_managerpermission" ("name", "model", "description", 
 
 INSERT INTO "public"."user_user" ("password", "last_login", "email", "first_name", "last_name", "birth_date", "is_active", "is_admin", "is_staff", "is_superuser") VALUES
 ('pbkdf2_sha256$320000$8h2X6GJp80TCzVtlv2tvT8$ODbmbEwXV/jOTDcoTnypmf056d7/sWgZBFGaLHfgq8Q=', NULL, 'admin@example.com', 'Test', 'Test', NULL, 't', 't', 't', 'f'),
-('pbkdf2_sha256$320000$69UGz2IjZSwpFDGIBbTxLt$mloeqFvhhkLTFVKtbK2N9LzAbw5Ht7OiCvslMCk43s8=', NULL, 'test@example.com', '', '', NULL, 't', 't', 'f', 'f');
+('pbkdf2_sha256$320000$69UGz2IjZSwpFDGIBbTxLt$mloeqFvhhkLTFVKtbK2N9LzAbw5Ht7OiCvslMCk43s8=', NULL, 'test@example.com', '', '', NULL, 't', 'f', 't', 'f');
 
 INSERT INTO "public"."user_user_groups" ("id", "user_id", "group_id") VALUES
-(2, 'test@example.com', 2);
+(5, 'test@example.com', 3);
 
-ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
 ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
+ALTER TABLE "public"."auth_group_permissions" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
 ALTER TABLE "public"."auth_permission" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
 ALTER TABLE "public"."authtoken_token" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_paymentmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("paymentmethodcountry_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("shippingmethodcountry_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."category_category_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
-ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("page_id") REFERENCES "public"."cms_page"("id");
 ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
+ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("page_id") REFERENCES "public"."cms_page"("id");
 ALTER TABLE "public"."cms_pagecategory_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategorytype_id") REFERENCES "public"."cms_pagecategorytype"("id");
@@ -29965,8 +30033,8 @@ ALTER TABLE "public"."cms_pagefrontend_translation" ADD FOREIGN KEY ("master_id"
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."django_admin_log" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
@@ -29979,17 +30047,17 @@ ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("ex
 ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_baseattribute_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_extensionattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_extattributetype"("id");
-ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("from_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
 ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("to_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
+ALTER TABLE "public"."product_extensionattribute_ext_attributes" ADD FOREIGN KEY ("from_extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
 ALTER TABLE "public"."product_pricelist" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_product_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("price_list_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("price_list_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("attributetype_id") REFERENCES "public"."product_attributetype"("id");
 ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("vatgroup_id") REFERENCES "public"."country_vatgroup"("id");
@@ -29998,9 +30066,9 @@ ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("produ
 ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("media_id") REFERENCES "public"."product_productmedia"("id");
-ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
 ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
 ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managerpermission_id") REFERENCES "public"."roles_managerpermission"("name");
 ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managergroup_id") REFERENCES "public"."roles_managergroup"("name");
 ALTER TABLE "public"."token_blacklist_blacklistedtoken" ADD FOREIGN KEY ("token_id") REFERENCES "public"."token_blacklist_outstandingtoken"("id");
