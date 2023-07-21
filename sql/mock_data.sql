@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: ecoseller
--- Generation Time: 2023-07-19 08:47:01.7240
+-- Generation Time: 2023-07-21 14:23:05.2290
 -- -------------------------------------------------------------
 
 
@@ -76,6 +76,7 @@ CREATE TABLE "public"."cart_cart" (
     "payment_method_country_id" int8,
     "shipping_method_country_id" int8,
     "pricelist_id" varchar(200),
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("token")
 );
 
@@ -95,6 +96,7 @@ CREATE TABLE "public"."cart_cartitem" (
     "product_variant_id" varchar(255),
     "product_id" int8,
     "discount" numeric(10,2),
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -568,6 +570,7 @@ CREATE TABLE "public"."order_order" (
     "agreed_to_terms" bool NOT NULL,
     "marketing_flag" bool NOT NULL,
     "payment_id" varchar(100),
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("token")
 );
 
@@ -586,6 +589,7 @@ CREATE TABLE "public"."order_orderitemcomplaint" (
     "create_at" timestamptz NOT NULL,
     "cart_item_id" int8 NOT NULL,
     "order_id" uuid NOT NULL,
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("id")
 );
 
@@ -915,6 +919,7 @@ CREATE TABLE "public"."review_review" (
     "product_id" int8,
     "product_variant_id" varchar(255),
     "country" varchar(255),
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("token")
 );
 
@@ -925,6 +930,7 @@ DROP TABLE IF EXISTS "public"."roles_managergroup";
 CREATE TABLE "public"."roles_managergroup" (
     "name" varchar(200) NOT NULL,
     "description" varchar(200) NOT NULL,
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("name")
 );
 
@@ -951,6 +957,7 @@ CREATE TABLE "public"."roles_managerpermission" (
     "model" varchar(200) NOT NULL,
     "description" varchar(200) NOT NULL,
     "type" varchar(200) NOT NULL,
+    "safe_deleted" bool NOT NULL,
     PRIMARY KEY ("name")
 );
 
@@ -1284,15 +1291,15 @@ INSERT INTO "public"."auth_permission" ("id", "name", "content_type_id", "codena
 (172, 'Can delete order item complaint', 53, 'delete_orderitemcomplaint'),
 (173, 'Can view order item complaint', 53, 'view_orderitemcomplaint');
 
-INSERT INTO "public"."cart_cart" ("token", "update_at", "create_at", "country_id", "user_id", "billing_info_id", "shipping_info_id", "payment_method_country_id", "shipping_method_country_id", "pricelist_id") VALUES
-('0b10dfad-7357-4d80-b173-cbf7383b3b9f', '2023-07-18 08:47:43.188325+00', '2023-07-18 08:47:43.143757+00', 'CZ', NULL, NULL, NULL, NULL, NULL, 'CZK_retail'),
-('942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '2023-07-14 12:54:22.663833+00', '2023-07-14 12:54:22.605846+00', 'CZ', NULL, NULL, NULL, NULL, NULL, 'CZK_retail'),
-('c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', '2023-07-18 10:44:37.117687+00', '2023-07-18 10:44:05.755838+00', 'CZ', NULL, 1, 1, 1, 1, 'CZK_retail');
+INSERT INTO "public"."cart_cart" ("token", "update_at", "create_at", "country_id", "user_id", "billing_info_id", "shipping_info_id", "payment_method_country_id", "shipping_method_country_id", "pricelist_id", "safe_deleted") VALUES
+('0b10dfad-7357-4d80-b173-cbf7383b3b9f', '2023-07-18 08:47:43.188325+00', '2023-07-18 08:47:43.143757+00', 'CZ', NULL, NULL, NULL, NULL, NULL, 'CZK_retail', 'f'),
+('942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '2023-07-14 12:54:22.663833+00', '2023-07-14 12:54:22.605846+00', 'CZ', NULL, NULL, NULL, NULL, NULL, 'CZK_retail', 'f'),
+('c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', '2023-07-18 10:44:37.117687+00', '2023-07-18 10:44:05.755838+00', 'CZ', NULL, 1, 1, 1, 1, 'CZK_retail', 'f');
 
-INSERT INTO "public"."cart_cartitem" ("id", "unit_price_incl_vat", "unit_price_without_vat", "quantity", "cart_id", "product_variant_id", "product_id", "discount") VALUES
-(1, 475.53, 393.00, 2, '942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '1-cs-1080p', 1, NULL),
-(2, 205.70, 170.00, 2, '942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '159858-en-720p', 159858, NULL),
-(3, 205.70, 170.00, 1, 'c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', '159858-en-720p', 159858, NULL);
+INSERT INTO "public"."cart_cartitem" ("id", "unit_price_incl_vat", "unit_price_without_vat", "quantity", "cart_id", "product_variant_id", "product_id", "discount", "safe_deleted") VALUES
+(1, 475.53, 393.00, 2, '942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '1-cs-1080p', 1, NULL, 'f'),
+(2, 205.70, 170.00, 2, '942d1df0-33d1-4b5b-9275-8e383d0fd8a8', '159858-en-720p', 159858, NULL, 'f'),
+(3, 205.70, 170.00, 1, 'c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', '159858-en-720p', 159858, NULL, 'f');
 
 INSERT INTO "public"."cart_paymentmethod" ("id", "image", "update_at", "create_at", "safe_deleted") VALUES
 (1, '', '2023-07-07 07:37:13.917893+00', '2023-07-07 07:34:55.724067+00', 'f'),
@@ -1769,10 +1776,15 @@ INSERT INTO "public"."django_migrations" ("id", "app", "name", "applied") VALUES
 (155, 'user', '0007_remove_user_cart', '2023-07-06 22:00:40.538755+00'),
 (157, 'order', '0006_orderitemcomplaint', '2023-07-13 11:55:56.057067+00'),
 (160, 'product', '0046_alter_baseattributetranslation_name', '2023-07-19 06:43:00.599847+00'),
-(161, 'user', '0008_user_is_superuser', '2023-07-19 06:46:09.033889+00');
+(161, 'user', '0008_user_is_superuser', '2023-07-19 06:46:09.033889+00'),
+(162, 'cart', '0027_cart_safe_deleted_cartitem_safe_deleted', '2023-07-21 12:19:53.694451+00'),
+(163, 'order', '0007_order_safe_deleted_orderitemcomplaint_safe_deleted', '2023-07-21 12:19:53.714404+00'),
+(164, 'product', '0047_extattributetype_safe_deleted_and_more', '2023-07-21 12:22:31.378145+00'),
+(165, 'review', '0004_review_safe_deleted', '2023-07-21 12:22:31.38984+00'),
+(166, 'roles', '0002_managergroup_safe_deleted_and_more', '2023-07-21 12:22:31.396025+00');
 
-INSERT INTO "public"."order_order" ("token", "create_at", "cart_id", "status", "agreed_to_terms", "marketing_flag", "payment_id") VALUES
-('545107d5-59ad-41d6-9f70-782828afdce2', '2023-07-18 10:44:40.222194+00', 'c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', 'PENDING', 't', 't', NULL);
+INSERT INTO "public"."order_order" ("token", "create_at", "cart_id", "status", "agreed_to_terms", "marketing_flag", "payment_id", "safe_deleted") VALUES
+('545107d5-59ad-41d6-9f70-782828afdce2', '2023-07-18 10:44:40.222194+00', 'c637d1b1-d5fd-4a15-a14f-1e57b6b94a4d', 'PENDING', 't', 't', NULL, 'f');
 
 INSERT INTO "public"."product_attributetype" ("id", "type_name", "unit", "value_type", "safe_deleted") VALUES
 (1, 'GENRE', NULL, 'TEXT', 'f'),
@@ -29829,10 +29841,10 @@ INSERT INTO "public"."product_productvariant_attributes" ("id", "productvariant_
 (10939, '190183-en-720p', 42),
 (10940, '190183-en-720p', 53);
 
-INSERT INTO "public"."roles_managergroup" ("name", "description") VALUES
-('Copywriter', 'Copywriter role'),
-('Editor', 'Editor role'),
-('UserManager', 'User manager role');
+INSERT INTO "public"."roles_managergroup" ("name", "description", "safe_deleted") VALUES
+('Copywriter', 'Copywriter role', 'f'),
+('Editor', 'Editor role', 'f'),
+('UserManager', 'User manager role', 'f');
 
 INSERT INTO "public"."roles_managergroup_permissions" ("id", "managergroup_id", "managerpermission_id") VALUES
 (1, 'Editor', 'cart_change_permission'),
@@ -29865,174 +29877,174 @@ INSERT INTO "public"."roles_managergroup_permissions" ("id", "managergroup_id", 
 (30, 'UserManager', 'group_change_permission'),
 (31, 'UserManager', 'group_add_permission');
 
-INSERT INTO "public"."roles_managerpermission" ("name", "model", "description", "type") VALUES
-('attributetype_add_permission', 'attributetype', 'Can add attribute type', 'add'),
-('attributetype_change_permission', 'attributetype', 'Can change attribute type', 'change'),
-('attributetype_delete_permission', 'attributetype', 'Can delete attribute type', 'delete'),
-('attributetype_view_permission', 'attributetype', 'Can view attribute type', 'view'),
-('baseattribute_add_permission', 'baseattribute', 'Can add base attribute', 'add'),
-('baseattribute_change_permission', 'baseattribute', 'Can change base attribute', 'change'),
-('baseattribute_delete_permission', 'baseattribute', 'Can delete base attribute', 'delete'),
-('baseattribute_view_permission', 'baseattribute', 'Can view base attribute', 'view'),
-('billinginfo_add_permission', 'billinginfo', 'Can add Billing Address', 'add'),
-('billinginfo_change_permission', 'billinginfo', 'Can change Billing Address', 'change'),
-('billinginfo_delete_permission', 'billinginfo', 'Can delete Billing Address', 'delete'),
-('billinginfo_view_permission', 'billinginfo', 'Can view Billing Address', 'view'),
-('blacklistedtoken_add_permission', 'blacklistedtoken', 'Can add blacklisted token', 'add'),
-('blacklistedtoken_change_permission', 'blacklistedtoken', 'Can change blacklisted token', 'change'),
-('blacklistedtoken_delete_permission', 'blacklistedtoken', 'Can delete blacklisted token', 'delete'),
-('blacklistedtoken_view_permission', 'blacklistedtoken', 'Can view blacklisted token', 'view'),
-('cart_add_permission', 'cart', 'Can add cart', 'add'),
-('cart_change_permission', 'cart', 'Can change cart', 'change'),
-('cart_delete_permission', 'cart', 'Can delete cart', 'delete'),
-('cart_view_permission', 'cart', 'Can view cart', 'view'),
-('cartitem_add_permission', 'cartitem', 'Can add cart item', 'add'),
-('cartitem_change_permission', 'cartitem', 'Can change cart item', 'change'),
-('cartitem_delete_permission', 'cartitem', 'Can delete cart item', 'delete'),
-('cartitem_view_permission', 'cartitem', 'Can view cart item', 'view'),
-('category_add_permission', 'category', 'Can add category', 'add'),
-('category_change_permission', 'category', 'Can change category', 'change'),
-('category_delete_permission', 'category', 'Can delete category', 'delete'),
-('category_view_permission', 'category', 'Can view category', 'view'),
-('contenttype_add_permission', 'contenttype', 'Can add content type', 'add'),
-('contenttype_change_permission', 'contenttype', 'Can change content type', 'change'),
-('contenttype_delete_permission', 'contenttype', 'Can delete content type', 'delete'),
-('contenttype_view_permission', 'contenttype', 'Can view content type', 'view'),
-('country_add_permission', 'country', 'Can add Country', 'add'),
-('country_change_permission', 'country', 'Can change Country', 'change'),
-('country_delete_permission', 'country', 'Can delete Country', 'delete'),
-('country_view_permission', 'country', 'Can view Country', 'view'),
-('currency_add_permission', 'currency', 'Can add Currency', 'add'),
-('currency_change_permission', 'currency', 'Can change Currency', 'change'),
-('currency_delete_permission', 'currency', 'Can delete Currency', 'delete'),
-('currency_view_permission', 'currency', 'Can view Currency', 'view'),
-('extattributetype_add_permission', 'extattributetype', 'Can add ext attribute type', 'add'),
-('extattributetype_change_permission', 'extattributetype', 'Can change ext attribute type', 'change'),
-('extattributetype_delete_permission', 'extattributetype', 'Can delete ext attribute type', 'delete'),
-('extattributetype_view_permission', 'extattributetype', 'Can view ext attribute type', 'view'),
-('extensionattribute_add_permission', 'extensionattribute', 'Can add extension attribute', 'add'),
-('extensionattribute_change_permission', 'extensionattribute', 'Can change extension attribute', 'change'),
-('extensionattribute_delete_permission', 'extensionattribute', 'Can delete extension attribute', 'delete'),
-('extensionattribute_view_permission', 'extensionattribute', 'Can view extension attribute', 'view'),
-('group_add_permission', 'group', 'Can add group', 'add'),
-('group_change_permission', 'group', 'Can change group', 'change'),
-('group_delete_permission', 'group', 'Can delete group', 'delete'),
-('group_view_permission', 'group', 'Can view group', 'view'),
-('logentry_add_permission', 'logentry', 'Can add log entry', 'add'),
-('logentry_change_permission', 'logentry', 'Can change log entry', 'change'),
-('logentry_delete_permission', 'logentry', 'Can delete log entry', 'delete'),
-('logentry_view_permission', 'logentry', 'Can view log entry', 'view'),
-('managergroup_add_permission', 'managergroup', 'Can add manager group', 'add'),
-('managergroup_change_permission', 'managergroup', 'Can change manager group', 'change'),
-('managergroup_delete_permission', 'managergroup', 'Can delete manager group', 'delete'),
-('managergroup_view_permission', 'managergroup', 'Can view manager group', 'view'),
-('managerpermission_add_permission', 'managerpermission', 'Can add manager permission', 'add'),
-('managerpermission_change_permission', 'managerpermission', 'Can change manager permission', 'change'),
-('managerpermission_delete_permission', 'managerpermission', 'Can delete manager permission', 'delete'),
-('managerpermission_view_permission', 'managerpermission', 'Can view manager permission', 'view'),
-('order_add_permission', 'order', 'Can add order', 'add'),
-('order_change_permission', 'order', 'Can change order', 'change'),
-('order_delete_permission', 'order', 'Can delete order', 'delete'),
-('order_view_permission', 'order', 'Can view order', 'view'),
-('outstandingtoken_add_permission', 'outstandingtoken', 'Can add outstanding token', 'add'),
-('outstandingtoken_change_permission', 'outstandingtoken', 'Can change outstanding token', 'change'),
-('outstandingtoken_delete_permission', 'outstandingtoken', 'Can delete outstanding token', 'delete'),
-('outstandingtoken_view_permission', 'outstandingtoken', 'Can view outstanding token', 'view'),
-('page_add_permission', 'page', 'Can add page', 'add'),
-('page_change_permission', 'page', 'Can change page', 'change'),
-('page_delete_permission', 'page', 'Can delete page', 'delete'),
-('page_view_permission', 'page', 'Can view page', 'view'),
-('pagecategory_add_permission', 'pagecategory', 'Can add Page Category', 'add'),
-('pagecategory_change_permission', 'pagecategory', 'Can change Page Category', 'change'),
-('pagecategory_delete_permission', 'pagecategory', 'Can delete Page Category', 'delete'),
-('pagecategory_view_permission', 'pagecategory', 'Can view Page Category', 'view'),
-('pagecategorytype_add_permission', 'pagecategorytype', 'Can add Page category type', 'add'),
-('pagecategorytype_change_permission', 'pagecategorytype', 'Can change Page category type', 'change'),
-('pagecategorytype_delete_permission', 'pagecategorytype', 'Can delete Page category type', 'delete'),
-('pagecategorytype_view_permission', 'pagecategorytype', 'Can view Page category type', 'view'),
-('pagecms_add_permission', 'pagecms', 'Can add PageCMS', 'add'),
-('pagecms_change_permission', 'pagecms', 'Can change PageCMS', 'change'),
-('pagecms_delete_permission', 'pagecms', 'Can delete PageCMS', 'delete'),
-('pagecms_view_permission', 'pagecms', 'Can view PageCMS', 'view'),
-('pagefrontend_add_permission', 'pagefrontend', 'Can add PageFrontend', 'add'),
-('pagefrontend_change_permission', 'pagefrontend', 'Can change PageFrontend', 'change'),
-('pagefrontend_delete_permission', 'pagefrontend', 'Can delete PageFrontend', 'delete'),
-('pagefrontend_view_permission', 'pagefrontend', 'Can view PageFrontend', 'view'),
-('paymentmethod_add_permission', 'paymentmethod', 'Can add payment method', 'add'),
-('paymentmethod_change_permission', 'paymentmethod', 'Can change payment method', 'change'),
-('paymentmethod_delete_permission', 'paymentmethod', 'Can delete payment method', 'delete'),
-('paymentmethod_view_permission', 'paymentmethod', 'Can view payment method', 'view'),
-('paymentmethodcountry_add_permission', 'paymentmethodcountry', 'Can add payment method country', 'add'),
-('paymentmethodcountry_change_permission', 'paymentmethodcountry', 'Can change payment method country', 'change'),
-('paymentmethodcountry_delete_permission', 'paymentmethodcountry', 'Can delete payment method country', 'delete'),
-('paymentmethodcountry_view_permission', 'paymentmethodcountry', 'Can view payment method country', 'view'),
-('permission_add_permission', 'permission', 'Can add permission', 'add'),
-('permission_change_permission', 'permission', 'Can change permission', 'change'),
-('permission_delete_permission', 'permission', 'Can delete permission', 'delete'),
-('permission_view_permission', 'permission', 'Can view permission', 'view'),
-('pricelist_add_permission', 'pricelist', 'Can add price list', 'add'),
-('pricelist_change_permission', 'pricelist', 'Can change price list', 'change'),
-('pricelist_delete_permission', 'pricelist', 'Can delete price list', 'delete'),
-('pricelist_view_permission', 'pricelist', 'Can view price list', 'view'),
-('product_add_permission', 'product', 'Can add product', 'add'),
-('product_change_permission', 'product', 'Can change product', 'change'),
-('product_delete_permission', 'product', 'Can delete product', 'delete'),
-('product_view_permission', 'product', 'Can view product', 'view'),
-('productmedia_add_permission', 'productmedia', 'Can add product media', 'add'),
-('productmedia_change_permission', 'productmedia', 'Can change product media', 'change'),
-('productmedia_delete_permission', 'productmedia', 'Can delete product media', 'delete'),
-('productmedia_view_permission', 'productmedia', 'Can view product media', 'view'),
-('productprice_add_permission', 'productprice', 'Can add product price', 'add'),
-('productprice_change_permission', 'productprice', 'Can change product price', 'change'),
-('productprice_delete_permission', 'productprice', 'Can delete product price', 'delete'),
-('productprice_view_permission', 'productprice', 'Can view product price', 'view'),
-('producttype_add_permission', 'producttype', 'Can add product type', 'add'),
-('producttype_change_permission', 'producttype', 'Can change product type', 'change'),
-('producttype_delete_permission', 'producttype', 'Can delete product type', 'delete'),
-('producttype_view_permission', 'producttype', 'Can view product type', 'view'),
-('productvariant_add_permission', 'productvariant', 'Can add product variant', 'add'),
-('productvariant_change_permission', 'productvariant', 'Can change product variant', 'change'),
-('productvariant_delete_permission', 'productvariant', 'Can delete product variant', 'delete'),
-('productvariant_view_permission', 'productvariant', 'Can view product variant', 'view'),
-('productvariantmedia_add_permission', 'productvariantmedia', 'Can add product variant media', 'add'),
-('productvariantmedia_change_permission', 'productvariantmedia', 'Can change product variant media', 'change'),
-('productvariantmedia_delete_permission', 'productvariantmedia', 'Can delete product variant media', 'delete'),
-('productvariantmedia_view_permission', 'productvariantmedia', 'Can view product variant media', 'view'),
-('queue_None_permission', 'queue', 'Access admin page', 'None'),
-('review_change_permission', 'review', 'Can change review', 'change'),
-('review_view_permission', 'review', 'Can add review', 'view'),
-('session_add_permission', 'session', 'Can add session', 'add'),
-('session_change_permission', 'session', 'Can change session', 'change'),
-('session_delete_permission', 'session', 'Can delete session', 'delete'),
-('session_view_permission', 'session', 'Can view session', 'view'),
-('shippinginfo_add_permission', 'shippinginfo', 'Can add Shipping Address', 'add'),
-('shippinginfo_change_permission', 'shippinginfo', 'Can change Shipping Address', 'change'),
-('shippinginfo_delete_permission', 'shippinginfo', 'Can delete Shipping Address', 'delete'),
-('shippinginfo_view_permission', 'shippinginfo', 'Can view Shipping Address', 'view'),
-('shippingmethod_add_permission', 'shippingmethod', 'Can add shipping method', 'add'),
-('shippingmethod_change_permission', 'shippingmethod', 'Can change shipping method', 'change'),
-('shippingmethod_delete_permission', 'shippingmethod', 'Can delete shipping method', 'delete'),
-('shippingmethod_view_permission', 'shippingmethod', 'Can view shipping method', 'view'),
-('shippingmethodcountry_add_permission', 'shippingmethodcountry', 'Can add shipping method country', 'add'),
-('shippingmethodcountry_change_permission', 'shippingmethodcountry', 'Can change shipping method country', 'change'),
-('shippingmethodcountry_delete_permission', 'shippingmethodcountry', 'Can delete shipping method country', 'delete'),
-('shippingmethodcountry_view_permission', 'shippingmethodcountry', 'Can view shipping method country', 'view'),
-('token_add_permission', 'token', 'Can add Token', 'add'),
-('token_change_permission', 'token', 'Can change Token', 'change'),
-('token_delete_permission', 'token', 'Can delete Token', 'delete'),
-('token_view_permission', 'token', 'Can view Token', 'view'),
-('tokenproxy_add_permission', 'tokenproxy', 'Can add token', 'add'),
-('tokenproxy_change_permission', 'tokenproxy', 'Can change token', 'change'),
-('tokenproxy_delete_permission', 'tokenproxy', 'Can delete token', 'delete'),
-('tokenproxy_view_permission', 'tokenproxy', 'Can view token', 'view'),
-('user_add_permission', 'user', 'Can add user', 'add'),
-('user_change_permission', 'user', 'Can change user', 'change'),
-('user_delete_permission', 'user', 'Can delete user', 'delete'),
-('user_view_permission', 'user', 'Can view user', 'view'),
-('vatgroup_add_permission', 'vatgroup', 'Can add VAT Group', 'add'),
-('vatgroup_change_permission', 'vatgroup', 'Can change VAT Group', 'change'),
-('vatgroup_delete_permission', 'vatgroup', 'Can delete VAT Group', 'delete'),
-('vatgroup_view_permission', 'vatgroup', 'Can view VAT Group', 'view');
+INSERT INTO "public"."roles_managerpermission" ("name", "model", "description", "type", "safe_deleted") VALUES
+('attributetype_add_permission', 'attributetype', 'Can add attribute type', 'add', 'f'),
+('attributetype_change_permission', 'attributetype', 'Can change attribute type', 'change', 'f'),
+('attributetype_delete_permission', 'attributetype', 'Can delete attribute type', 'delete', 'f'),
+('attributetype_view_permission', 'attributetype', 'Can view attribute type', 'view', 'f'),
+('baseattribute_add_permission', 'baseattribute', 'Can add base attribute', 'add', 'f'),
+('baseattribute_change_permission', 'baseattribute', 'Can change base attribute', 'change', 'f'),
+('baseattribute_delete_permission', 'baseattribute', 'Can delete base attribute', 'delete', 'f'),
+('baseattribute_view_permission', 'baseattribute', 'Can view base attribute', 'view', 'f'),
+('billinginfo_add_permission', 'billinginfo', 'Can add Billing Address', 'add', 'f'),
+('billinginfo_change_permission', 'billinginfo', 'Can change Billing Address', 'change', 'f'),
+('billinginfo_delete_permission', 'billinginfo', 'Can delete Billing Address', 'delete', 'f'),
+('billinginfo_view_permission', 'billinginfo', 'Can view Billing Address', 'view', 'f'),
+('blacklistedtoken_add_permission', 'blacklistedtoken', 'Can add blacklisted token', 'add', 'f'),
+('blacklistedtoken_change_permission', 'blacklistedtoken', 'Can change blacklisted token', 'change', 'f'),
+('blacklistedtoken_delete_permission', 'blacklistedtoken', 'Can delete blacklisted token', 'delete', 'f'),
+('blacklistedtoken_view_permission', 'blacklistedtoken', 'Can view blacklisted token', 'view', 'f'),
+('cart_add_permission', 'cart', 'Can add cart', 'add', 'f'),
+('cart_change_permission', 'cart', 'Can change cart', 'change', 'f'),
+('cart_delete_permission', 'cart', 'Can delete cart', 'delete', 'f'),
+('cart_view_permission', 'cart', 'Can view cart', 'view', 'f'),
+('cartitem_add_permission', 'cartitem', 'Can add cart item', 'add', 'f'),
+('cartitem_change_permission', 'cartitem', 'Can change cart item', 'change', 'f'),
+('cartitem_delete_permission', 'cartitem', 'Can delete cart item', 'delete', 'f'),
+('cartitem_view_permission', 'cartitem', 'Can view cart item', 'view', 'f'),
+('category_add_permission', 'category', 'Can add category', 'add', 'f'),
+('category_change_permission', 'category', 'Can change category', 'change', 'f'),
+('category_delete_permission', 'category', 'Can delete category', 'delete', 'f'),
+('category_view_permission', 'category', 'Can view category', 'view', 'f'),
+('contenttype_add_permission', 'contenttype', 'Can add content type', 'add', 'f'),
+('contenttype_change_permission', 'contenttype', 'Can change content type', 'change', 'f'),
+('contenttype_delete_permission', 'contenttype', 'Can delete content type', 'delete', 'f'),
+('contenttype_view_permission', 'contenttype', 'Can view content type', 'view', 'f'),
+('country_add_permission', 'country', 'Can add Country', 'add', 'f'),
+('country_change_permission', 'country', 'Can change Country', 'change', 'f'),
+('country_delete_permission', 'country', 'Can delete Country', 'delete', 'f'),
+('country_view_permission', 'country', 'Can view Country', 'view', 'f'),
+('currency_add_permission', 'currency', 'Can add Currency', 'add', 'f'),
+('currency_change_permission', 'currency', 'Can change Currency', 'change', 'f'),
+('currency_delete_permission', 'currency', 'Can delete Currency', 'delete', 'f'),
+('currency_view_permission', 'currency', 'Can view Currency', 'view', 'f'),
+('extattributetype_add_permission', 'extattributetype', 'Can add ext attribute type', 'add', 'f'),
+('extattributetype_change_permission', 'extattributetype', 'Can change ext attribute type', 'change', 'f'),
+('extattributetype_delete_permission', 'extattributetype', 'Can delete ext attribute type', 'delete', 'f'),
+('extattributetype_view_permission', 'extattributetype', 'Can view ext attribute type', 'view', 'f'),
+('extensionattribute_add_permission', 'extensionattribute', 'Can add extension attribute', 'add', 'f'),
+('extensionattribute_change_permission', 'extensionattribute', 'Can change extension attribute', 'change', 'f'),
+('extensionattribute_delete_permission', 'extensionattribute', 'Can delete extension attribute', 'delete', 'f'),
+('extensionattribute_view_permission', 'extensionattribute', 'Can view extension attribute', 'view', 'f'),
+('group_add_permission', 'group', 'Can add group', 'add', 'f'),
+('group_change_permission', 'group', 'Can change group', 'change', 'f'),
+('group_delete_permission', 'group', 'Can delete group', 'delete', 'f'),
+('group_view_permission', 'group', 'Can view group', 'view', 'f'),
+('logentry_add_permission', 'logentry', 'Can add log entry', 'add', 'f'),
+('logentry_change_permission', 'logentry', 'Can change log entry', 'change', 'f'),
+('logentry_delete_permission', 'logentry', 'Can delete log entry', 'delete', 'f'),
+('logentry_view_permission', 'logentry', 'Can view log entry', 'view', 'f'),
+('managergroup_add_permission', 'managergroup', 'Can add manager group', 'add', 'f'),
+('managergroup_change_permission', 'managergroup', 'Can change manager group', 'change', 'f'),
+('managergroup_delete_permission', 'managergroup', 'Can delete manager group', 'delete', 'f'),
+('managergroup_view_permission', 'managergroup', 'Can view manager group', 'view', 'f'),
+('managerpermission_add_permission', 'managerpermission', 'Can add manager permission', 'add', 'f'),
+('managerpermission_change_permission', 'managerpermission', 'Can change manager permission', 'change', 'f'),
+('managerpermission_delete_permission', 'managerpermission', 'Can delete manager permission', 'delete', 'f'),
+('managerpermission_view_permission', 'managerpermission', 'Can view manager permission', 'view', 'f'),
+('order_add_permission', 'order', 'Can add order', 'add', 'f'),
+('order_change_permission', 'order', 'Can change order', 'change', 'f'),
+('order_delete_permission', 'order', 'Can delete order', 'delete', 'f'),
+('order_view_permission', 'order', 'Can view order', 'view', 'f'),
+('outstandingtoken_add_permission', 'outstandingtoken', 'Can add outstanding token', 'add', 'f'),
+('outstandingtoken_change_permission', 'outstandingtoken', 'Can change outstanding token', 'change', 'f'),
+('outstandingtoken_delete_permission', 'outstandingtoken', 'Can delete outstanding token', 'delete', 'f'),
+('outstandingtoken_view_permission', 'outstandingtoken', 'Can view outstanding token', 'view', 'f'),
+('page_add_permission', 'page', 'Can add page', 'add', 'f'),
+('page_change_permission', 'page', 'Can change page', 'change', 'f'),
+('page_delete_permission', 'page', 'Can delete page', 'delete', 'f'),
+('page_view_permission', 'page', 'Can view page', 'view', 'f'),
+('pagecategory_add_permission', 'pagecategory', 'Can add Page Category', 'add', 'f'),
+('pagecategory_change_permission', 'pagecategory', 'Can change Page Category', 'change', 'f'),
+('pagecategory_delete_permission', 'pagecategory', 'Can delete Page Category', 'delete', 'f'),
+('pagecategory_view_permission', 'pagecategory', 'Can view Page Category', 'view', 'f'),
+('pagecategorytype_add_permission', 'pagecategorytype', 'Can add Page category type', 'add', 'f'),
+('pagecategorytype_change_permission', 'pagecategorytype', 'Can change Page category type', 'change', 'f'),
+('pagecategorytype_delete_permission', 'pagecategorytype', 'Can delete Page category type', 'delete', 'f'),
+('pagecategorytype_view_permission', 'pagecategorytype', 'Can view Page category type', 'view', 'f'),
+('pagecms_add_permission', 'pagecms', 'Can add PageCMS', 'add', 'f'),
+('pagecms_change_permission', 'pagecms', 'Can change PageCMS', 'change', 'f'),
+('pagecms_delete_permission', 'pagecms', 'Can delete PageCMS', 'delete', 'f'),
+('pagecms_view_permission', 'pagecms', 'Can view PageCMS', 'view', 'f'),
+('pagefrontend_add_permission', 'pagefrontend', 'Can add PageFrontend', 'add', 'f'),
+('pagefrontend_change_permission', 'pagefrontend', 'Can change PageFrontend', 'change', 'f'),
+('pagefrontend_delete_permission', 'pagefrontend', 'Can delete PageFrontend', 'delete', 'f'),
+('pagefrontend_view_permission', 'pagefrontend', 'Can view PageFrontend', 'view', 'f'),
+('paymentmethod_add_permission', 'paymentmethod', 'Can add payment method', 'add', 'f'),
+('paymentmethod_change_permission', 'paymentmethod', 'Can change payment method', 'change', 'f'),
+('paymentmethod_delete_permission', 'paymentmethod', 'Can delete payment method', 'delete', 'f'),
+('paymentmethod_view_permission', 'paymentmethod', 'Can view payment method', 'view', 'f'),
+('paymentmethodcountry_add_permission', 'paymentmethodcountry', 'Can add payment method country', 'add', 'f'),
+('paymentmethodcountry_change_permission', 'paymentmethodcountry', 'Can change payment method country', 'change', 'f'),
+('paymentmethodcountry_delete_permission', 'paymentmethodcountry', 'Can delete payment method country', 'delete', 'f'),
+('paymentmethodcountry_view_permission', 'paymentmethodcountry', 'Can view payment method country', 'view', 'f'),
+('permission_add_permission', 'permission', 'Can add permission', 'add', 'f'),
+('permission_change_permission', 'permission', 'Can change permission', 'change', 'f'),
+('permission_delete_permission', 'permission', 'Can delete permission', 'delete', 'f'),
+('permission_view_permission', 'permission', 'Can view permission', 'view', 'f'),
+('pricelist_add_permission', 'pricelist', 'Can add price list', 'add', 'f'),
+('pricelist_change_permission', 'pricelist', 'Can change price list', 'change', 'f'),
+('pricelist_delete_permission', 'pricelist', 'Can delete price list', 'delete', 'f'),
+('pricelist_view_permission', 'pricelist', 'Can view price list', 'view', 'f'),
+('product_add_permission', 'product', 'Can add product', 'add', 'f'),
+('product_change_permission', 'product', 'Can change product', 'change', 'f'),
+('product_delete_permission', 'product', 'Can delete product', 'delete', 'f'),
+('product_view_permission', 'product', 'Can view product', 'view', 'f'),
+('productmedia_add_permission', 'productmedia', 'Can add product media', 'add', 'f'),
+('productmedia_change_permission', 'productmedia', 'Can change product media', 'change', 'f'),
+('productmedia_delete_permission', 'productmedia', 'Can delete product media', 'delete', 'f'),
+('productmedia_view_permission', 'productmedia', 'Can view product media', 'view', 'f'),
+('productprice_add_permission', 'productprice', 'Can add product price', 'add', 'f'),
+('productprice_change_permission', 'productprice', 'Can change product price', 'change', 'f'),
+('productprice_delete_permission', 'productprice', 'Can delete product price', 'delete', 'f'),
+('productprice_view_permission', 'productprice', 'Can view product price', 'view', 'f'),
+('producttype_add_permission', 'producttype', 'Can add product type', 'add', 'f'),
+('producttype_change_permission', 'producttype', 'Can change product type', 'change', 'f'),
+('producttype_delete_permission', 'producttype', 'Can delete product type', 'delete', 'f'),
+('producttype_view_permission', 'producttype', 'Can view product type', 'view', 'f'),
+('productvariant_add_permission', 'productvariant', 'Can add product variant', 'add', 'f'),
+('productvariant_change_permission', 'productvariant', 'Can change product variant', 'change', 'f'),
+('productvariant_delete_permission', 'productvariant', 'Can delete product variant', 'delete', 'f'),
+('productvariant_view_permission', 'productvariant', 'Can view product variant', 'view', 'f'),
+('productvariantmedia_add_permission', 'productvariantmedia', 'Can add product variant media', 'add', 'f'),
+('productvariantmedia_change_permission', 'productvariantmedia', 'Can change product variant media', 'change', 'f'),
+('productvariantmedia_delete_permission', 'productvariantmedia', 'Can delete product variant media', 'delete', 'f'),
+('productvariantmedia_view_permission', 'productvariantmedia', 'Can view product variant media', 'view', 'f'),
+('queue_None_permission', 'queue', 'Access admin page', 'None', 'f'),
+('review_change_permission', 'review', 'Can change review', 'change', 'f'),
+('review_view_permission', 'review', 'Can add review', 'view', 'f'),
+('session_add_permission', 'session', 'Can add session', 'add', 'f'),
+('session_change_permission', 'session', 'Can change session', 'change', 'f'),
+('session_delete_permission', 'session', 'Can delete session', 'delete', 'f'),
+('session_view_permission', 'session', 'Can view session', 'view', 'f'),
+('shippinginfo_add_permission', 'shippinginfo', 'Can add Shipping Address', 'add', 'f'),
+('shippinginfo_change_permission', 'shippinginfo', 'Can change Shipping Address', 'change', 'f'),
+('shippinginfo_delete_permission', 'shippinginfo', 'Can delete Shipping Address', 'delete', 'f'),
+('shippinginfo_view_permission', 'shippinginfo', 'Can view Shipping Address', 'view', 'f'),
+('shippingmethod_add_permission', 'shippingmethod', 'Can add shipping method', 'add', 'f'),
+('shippingmethod_change_permission', 'shippingmethod', 'Can change shipping method', 'change', 'f'),
+('shippingmethod_delete_permission', 'shippingmethod', 'Can delete shipping method', 'delete', 'f'),
+('shippingmethod_view_permission', 'shippingmethod', 'Can view shipping method', 'view', 'f'),
+('shippingmethodcountry_add_permission', 'shippingmethodcountry', 'Can add shipping method country', 'add', 'f'),
+('shippingmethodcountry_change_permission', 'shippingmethodcountry', 'Can change shipping method country', 'change', 'f'),
+('shippingmethodcountry_delete_permission', 'shippingmethodcountry', 'Can delete shipping method country', 'delete', 'f'),
+('shippingmethodcountry_view_permission', 'shippingmethodcountry', 'Can view shipping method country', 'view', 'f'),
+('token_add_permission', 'token', 'Can add Token', 'add', 'f'),
+('token_change_permission', 'token', 'Can change Token', 'change', 'f'),
+('token_delete_permission', 'token', 'Can delete Token', 'delete', 'f'),
+('token_view_permission', 'token', 'Can view Token', 'view', 'f'),
+('tokenproxy_add_permission', 'tokenproxy', 'Can add token', 'add', 'f'),
+('tokenproxy_change_permission', 'tokenproxy', 'Can change token', 'change', 'f'),
+('tokenproxy_delete_permission', 'tokenproxy', 'Can delete token', 'delete', 'f'),
+('tokenproxy_view_permission', 'tokenproxy', 'Can view token', 'view', 'f'),
+('user_add_permission', 'user', 'Can add user', 'add', 'f'),
+('user_change_permission', 'user', 'Can change user', 'change', 'f'),
+('user_delete_permission', 'user', 'Can delete user', 'delete', 'f'),
+('user_view_permission', 'user', 'Can view user', 'view', 'f'),
+('vatgroup_add_permission', 'vatgroup', 'Can add VAT Group', 'add', 'f'),
+('vatgroup_change_permission', 'vatgroup', 'Can change VAT Group', 'change', 'f'),
+('vatgroup_delete_permission', 'vatgroup', 'Can delete VAT Group', 'delete', 'f'),
+('vatgroup_view_permission', 'vatgroup', 'Can view VAT Group', 'view', 'f');
 
 INSERT INTO "public"."user_user" ("password", "last_login", "email", "first_name", "last_name", "birth_date", "is_active", "is_admin", "is_staff", "cart_id", "permission_role_id", "is_superuser") VALUES
 ('pbkdf2_sha256$320000$8h2X6GJp80TCzVtlv2tvT8$ODbmbEwXV/jOTDcoTnypmf056d7/sWgZBFGaLHfgq8Q=', NULL, 'admin@example.com', 'Test', 'Test', NULL, 't', 't', 't', NULL, NULL, 'f'),
@@ -30051,420 +30063,420 @@ ALTER TABLE "public"."auth_permission" ADD FOREIGN KEY ("content_type_id") REFER
 ALTER TABLE "public"."auth_permission" ADD FOREIGN KEY ("content_type_id") REFERENCES "public"."django_content_type"("id");
 ALTER TABLE "public"."authtoken_token" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
 ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("pricelist_id") REFERENCES "public"."product_pricelist"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_method_country_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("payment_method_country_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("shipping_info_id") REFERENCES "public"."country_shippinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("billing_info_id") REFERENCES "public"."country_billinginfo"("id");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."cart_cart" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
-ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
+ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."cart_cartitem" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."cart_paymentmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("payment_method_id") REFERENCES "public"."cart_paymentmethod"("id");
+ALTER TABLE "public"."cart_paymentmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethod_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
-ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("shippingmethodcountry_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("vat_group_id") REFERENCES "public"."country_vatgroup"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry" ADD FOREIGN KEY ("shipping_method_id") REFERENCES "public"."cart_shippingmethod"("id");
 ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("paymentmethodcountry_id") REFERENCES "public"."cart_paymentmethodcountry"("id");
+ALTER TABLE "public"."cart_shippingmethodcountry_payment_methods" ADD FOREIGN KEY ("shippingmethodcountry_id") REFERENCES "public"."cart_shippingmethodcountry"("id");
 ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."category_category" ADD FOREIGN KEY ("parent_id") REFERENCES "public"."category_category"("id");
@@ -30512,8 +30524,8 @@ ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFEREN
 ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
 ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
 ALTER TABLE "public"."cms_page" ADD FOREIGN KEY ("polymorphic_ctype_id") REFERENCES "public"."django_content_type"("id");
-ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("page_id") REFERENCES "public"."cms_page"("id");
+ALTER TABLE "public"."cms_page_categories" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_pagecategory_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategory_id") REFERENCES "public"."cms_pagecategory"("id");
 ALTER TABLE "public"."cms_pagecategory_type" ADD FOREIGN KEY ("pagecategorytype_id") REFERENCES "public"."cms_pagecategorytype"("id");
@@ -30547,26 +30559,10 @@ ALTER TABLE "public"."cms_pagefrontend" ADD FOREIGN KEY ("page_ptr_id") REFERENC
 ALTER TABLE "public"."cms_pagefrontend" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
 ALTER TABLE "public"."cms_pagefrontend" ADD FOREIGN KEY ("page_ptr_id") REFERENCES "public"."cms_page"("id");
 ALTER TABLE "public"."cms_pagefrontend_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."cms_pagefrontend"("page_ptr_id");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
@@ -30577,21 +30573,37 @@ ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCE
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_billinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
@@ -30616,30 +30628,16 @@ ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id")
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
 ALTER TABLE "public"."country_country" ADD FOREIGN KEY ("default_price_list_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
-ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
@@ -30651,10 +30649,19 @@ ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENC
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
@@ -30662,6 +30669,11 @@ ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFER
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."country_shippinginfo" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
 ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
 ALTER TABLE "public"."country_vatgroup" ADD FOREIGN KEY ("country_id") REFERENCES "public"."country_country"("code");
@@ -30736,8 +30748,8 @@ ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFEREN
 ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_attributetype"("id");
 ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_attributetype"("id");
 ALTER TABLE "public"."product_baseattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_attributetype"("id");
-ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("extensionattribute_id") REFERENCES "public"."product_extensionattribute"("id");
+ALTER TABLE "public"."product_baseattribute_ext_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_baseattribute_translation" ADD FOREIGN KEY ("master_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_extensionattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_extattributetype"("id");
 ALTER TABLE "public"."product_extensionattribute" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_extattributetype"("id");
@@ -30789,21 +30801,6 @@ ALTER TABLE "public"."product_pricelist" ADD FOREIGN KEY ("currency_id") REFEREN
 ALTER TABLE "public"."product_pricelist" ADD FOREIGN KEY ("currency_id") REFERENCES "public"."country_currency"("code");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
@@ -30812,6 +30809,27 @@ ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCE
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
@@ -30819,18 +30837,12 @@ ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "p
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("type_id") REFERENCES "public"."product_producttype"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
-ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product" ADD FOREIGN KEY ("category_id") REFERENCES "public"."category_category"("id");
 ALTER TABLE "public"."product_product_product_variants" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
@@ -30859,28 +30871,28 @@ ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFER
 ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
 ALTER TABLE "public"."product_productmedia" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("price_list_id") REFERENCES "public"."product_pricelist"("code");
-ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
+ALTER TABLE "public"."product_productprice" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("attributetype_id") REFERENCES "public"."product_attributetype"("id");
+ALTER TABLE "public"."product_producttype_allowed_attribute_types" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("vatgroup_id") REFERENCES "public"."country_vatgroup"("id");
 ALTER TABLE "public"."product_producttype_vat_groups" ADD FOREIGN KEY ("producttype_id") REFERENCES "public"."product_producttype"("id");
 ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("baseattribute_id") REFERENCES "public"."product_baseattribute"("id");
 ALTER TABLE "public"."product_productvariant_attributes" ADD FOREIGN KEY ("productvariant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."product_productvariantmedia" ADD FOREIGN KEY ("media_id") REFERENCES "public"."product_productmedia"("id");
+ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
 ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_variant_id") REFERENCES "public"."product_productvariant"("sku");
 ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("product_id") REFERENCES "public"."product_product"("id");
-ALTER TABLE "public"."review_review" ADD FOREIGN KEY ("order_id") REFERENCES "public"."order_order"("token");
 ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managergroup_id") REFERENCES "public"."roles_managergroup"("name");
 ALTER TABLE "public"."roles_managergroup_permissions" ADD FOREIGN KEY ("managerpermission_id") REFERENCES "public"."roles_managerpermission"("name");
 ALTER TABLE "public"."token_blacklist_blacklistedtoken" ADD FOREIGN KEY ("token_id") REFERENCES "public"."token_blacklist_outstandingtoken"("id");
 ALTER TABLE "public"."token_blacklist_outstandingtoken" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
-ALTER TABLE "public"."user_permissionrole_permissions" ADD FOREIGN KEY ("permissionrole_id") REFERENCES "public"."user_permissionrole"("id");
 ALTER TABLE "public"."user_permissionrole_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."user_permission"("id");
+ALTER TABLE "public"."user_permissionrole_permissions" ADD FOREIGN KEY ("permissionrole_id") REFERENCES "public"."user_permissionrole"("id");
 ALTER TABLE "public"."user_user" ADD FOREIGN KEY ("cart_id") REFERENCES "public"."cart_cart"("token");
 ALTER TABLE "public"."user_user" ADD FOREIGN KEY ("permission_role_id") REFERENCES "public"."user_permissionrole"("id");
-ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
 ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
+ALTER TABLE "public"."user_user_groups" ADD FOREIGN KEY ("group_id") REFERENCES "public"."auth_group"("id");
 ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("permission_id") REFERENCES "public"."auth_permission"("id");
 ALTER TABLE "public"."user_user_user_permissions" ADD FOREIGN KEY ("user_id") REFERENCES "public"."user_user"("email");
